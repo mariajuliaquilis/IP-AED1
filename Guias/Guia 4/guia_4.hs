@@ -154,6 +154,23 @@ esPrimo :: Integer -> Bool
 esPrimo 1 = False
 esPrimo n = (n == menorDivisor n)
 
+--c)
+maximoComunDivisor :: Integer -> Integer -> Integer
+maximoComunDivisor a 0 = a
+maximoComunDivisor a b = maximoComunDivisor b (mod a b)
+
+sonCoprimos :: Integer -> Integer -> Bool
+sonCoprimos a b = maximoComunDivisor a b == 1
+
+--d)
+siguientePrimo :: Integer -> Integer -> Integer -> Integer
+siguientePrimo p n i | (i /= n) && (esPrimo(p)) = siguientePrimo (p+1) n (i+1)
+                     | not(esPrimo(p)) = siguientePrimo (p+1) n i
+                     | otherwise = p
+
+nEsimoPrimo :: Integer -> Integer
+nEsimoPrimo n = siguientePrimo 2 n 1
+
 --Ejercicio 17
 auxFibonacci :: Integer -> Integer -> Bool 
 auxFibonacci a b | fibonacci b > a = False
@@ -162,3 +179,67 @@ auxFibonacci a b | fibonacci b > a = False
 
 esFibonacci :: Integer -> Bool
 esFibonacci n = auxFibonacci n 0 
+
+--Ejercicio 18
+esPar :: Integer -> Bool
+esPar n = mod n 2 == 0 
+
+cualEsElParMasGrande :: Integer -> Integer -> Integer
+cualEsElParMasGrande a b | ((esPar a && esPar b) && a >= b) || (esPar a && not(esPar b)) = a 
+                         | ((esPar a && esPar b) && a < b ) || (not(esPar a) && esPar b) = b 
+                         | otherwise = -1      
+
+parMasGrande :: Integer -> Integer -> Integer -> Integer -> Integer
+parMasGrande n d h res | (d == h) = res 
+                       | res > (cualEsElParMasGrande (iesimoDigito n d) (iesimoDigito n (d+1))) = parMasGrande n (d+1) h res
+                       | otherwise = parMasGrande n (d+1) h (cualEsElParMasGrande (iesimoDigito n d) (iesimoDigito n (d+1))) 
+
+mayorDigitoPar :: Integer -> Integer
+mayorDigitoPar n = parMasGrande n 1 (cantDigitos(n)) (cualEsElParMasGrande (iesimoDigito n 1) (iesimoDigito n 1))
+
+--Ejercicio 19
+sumoPrimerosPrimos :: Integer -> Integer -> Integer -> Integer
+sumoPrimerosPrimos p n i | (p == n) || (p > n) = p 
+                         | otherwise = sumoPrimerosPrimos (p + (nEsimoPrimo (i+1)) ) n (i+1)
+
+esSumaInicialDePrimos :: Integer -> Bool
+esSumaInicialDePrimos n = (n == sumoPrimerosPrimos (nEsimoPrimo 1) n 1)
+
+--Ejercicio 20
+-- ejemplo:
+-- tomo a = 3, b = 5
+-- si i = 3 -> sumaDivisores(3) = 1 + 3 = 4
+-- si i = 4 -> sumaDivisores(4) = 1 + 2 + 4 = 7
+-- si i = 5 -> sumaDivisores(5) = 1 + 5 = 6
+-- tomaValorMax 3 5 = 4
+
+sumaDivisores :: Integer -> Integer -> Integer -> Integer -> Integer
+sumaDivisores n d h res | (d == h) = res+n
+                        | mod n d == 0 = sumaDivisores n (d+1) h (res+d)
+                        | otherwise = sumaDivisores n (d+1) h res
+
+numeroConMayorSuma :: Integer -> Integer -> Integer
+numeroConMayorSuma a b | (sumaDivisores a 1 a 0) >= (sumaDivisores b 1 b 0) = a 
+                       | otherwise = b
+
+numeroConElMaximoDivisor :: Integer -> Integer -> Integer -> Integer -> Integer
+numeroConElMaximoDivisor a b i res | (a <= i && i <= b) && (numeroConMayorSuma a i == a) = numeroConElMaximoDivisor a b (i+1) a
+                                   | (a <= i && i <= b) && (numeroConMayorSuma a i == i) = numeroConElMaximoDivisor i b (i+1) i 
+                                   | otherwise = res
+
+tomaValorMax :: Integer -> Integer -> Integer
+tomaValorMax a b = numeroConElMaximoDivisor a b a a
+
+--Ejercicio 21
+teoremaPitagoras :: Integer -> Integer -> Integer -> Bool
+teoremaPitagoras p q r = p^2 + q^2 <= r^2
+
+satisfacePitagoras :: Integer -> Integer -> Integer -> Integer -> Integer -> Integer -> Integer
+satisfacePitagoras p q r i j res | (0 <= i && i <= p) && (0 <= j && j <= q) && (teoremaPitagoras i j r) = satisfacePitagoras p q r (i+1) j (res+1)
+                                 | (0 <= i && i <= p) && (0 <= j && j <= q) && not(teoremaPitagoras i j r) = satisfacePitagoras p q r (i+1) j res
+                                 | (0 <= j && j <= q) = satisfacePitagoras p q r 0 (j+1) res
+                                 | otherwise = res
+
+
+pitagoras :: Integer -> Integer -> Integer -> Integer
+pitagoras m n r = satisfacePitagoras m n r 0 0 0
