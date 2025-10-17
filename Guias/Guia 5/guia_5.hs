@@ -75,3 +75,53 @@ mismosElementos s r = elementosIguales s r s
 --item 9)
 capicua :: (Eq t) => [t] -> Bool
 capicua s = s == reverso(s)
+
+--Ejercicio 3
+--item 1)
+sumatoria :: [Integer] -> Integer
+sumatoria [] = 0
+sumatoria (x:xs) = x + sumatoria xs
+
+--item 2)
+productoria :: [Integer] -> Integer
+productoria [] = 1
+productoria (x:xs) = x * productoria xs
+
+--item 3)
+masGrande :: [Integer] -> Integer -> Integer
+masGrande s e | longitud(s) == 1 = e 
+              | head(s) > head(tail s) = masGrande(quitarTodos(head(tail s)) s) (head s)
+              | otherwise = masGrande (tail s) (head(tail s))
+              
+maximo :: [Integer] -> Integer
+maximo s = masGrande s (head s)
+
+--item 4)
+sumarN :: Integer -> [Integer] -> [Integer]
+sumarN n []     = []
+sumarN n (x:xs) = (n+x):(sumarN n xs)
+
+--item 5)
+sumarElPrimero :: [Integer] -> [Integer]
+sumarElPrimero s = sumarN (head s) s
+
+--item 6)
+sumarElUltimo :: [Integer] -> [Integer]
+sumarElUltimo s = sumarN (ultimo s) s
+
+--item 7)
+pares :: [Integer] -> [Integer]
+pares s | longitud(s)    == 0 = s
+        | mod (head s) 2 == 1 = pares(quitarTodos (head s) s)
+        | otherwise           = (head s):pares(tail s)
+
+--item 8)
+multiplosDeN :: Integer -> [Integer] -> [Integer]
+multiplosDeN n s | longitud(s)    == 0 = s
+                 | mod (head s) n == 1 = multiplosDeN n (quitarTodos (head s) s)
+                 | otherwise = (head s):(multiplosDeN n (tail s))
+
+--item 9)
+ordenar :: [Integer] -> [Integer]
+ordenar s | longitud(s) == 0 = s 
+          | otherwise = (ordenar(quitarTodos(maximo s) s))++[maximo s]
