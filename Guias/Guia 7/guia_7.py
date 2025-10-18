@@ -22,7 +22,7 @@ def pertenece_for(s:list[int], e:int)->bool:
 def divide_a_todos(s: list[int], e: int)->bool:
      indice = 0
      while indice < len(s):
-          if(s[indice] % e != 0):
+          if s[indice] % e != 0:
                return False
           else:
                indice += 1
@@ -62,7 +62,7 @@ def minimo(s: list[int])->int:
 #Ejercicio 6:
 def ordenados(s: list[int])->bool:
      for i in range(len(s)-1):
-          if(s[i] >= s[i+1]):
+          if s[i] >= s[i+1]:
                return False
      return True
 
@@ -84,10 +84,10 @@ def pos_minimo(s: list[int])->int:
      return -1
 
 #Ejercicio 9:
-def long_mayorASiete(s: str)->bool:
+def long_mayorASiete(s: list[str])->bool:
      indice = 0
      while indice < len(s):
-          if(len(s[indice]) > 7):
+          if len(s[indice]) > 7:
                return True
           else:
                indice +=1
@@ -108,19 +108,29 @@ def es_palindroma(s: str)->bool:
 #Ejercicio 11:
 def iguales_consecutivos(s: list[int])->bool:
      for i in range(len(s)-2):
-          if(s[i] == s[i+1] and s[i+1] == s[i+2]):
+          if s[i] == s[i+1] and s[i+1] == s[i+2]:
                return True
      return False
 
 #Ejercicio 12:
-#HACERLO
+def pertenece_letra(s: str, e: str)->bool:
+     for i in range(len(s)):
+          if s[i] == e:
+               return True
+     return False
+
+def vocales_distintas(s: str)->bool:
+     vocales: str = ""
+     for i in range(len(s)):
+          if (not pertenece_letra(vocales, s[i])) and (s[i] == "a" or s[i] == "e" or s[i] == "i" or s[i] == "o" or s[i] == "u"):
+               vocales+=s[i]
+     return len(vocales) >= 3
 
 #Ejercicio 13:
 #HACERLO
 
 #Ejercicio 14:
 #HACERLO
-
 
 
 #RECORRIDO: FILTRANDO, MODIFICANDO Y PROCESANDO SECUENCIAS
@@ -188,8 +198,12 @@ palabra = "hola"
 print(da_vuelta_str(palabra))
 
 #punto 6)
-#HACERLO
-
+def eliminar_repetidos(s: str)->str:
+     palabra: str = ""
+     for i in range(len(s)):
+          if not pertenece_letra(palabra, s[i]):
+               palabra+=s[i]
+     return palabra
 
 #EJERCICIO 3
 def promedio(notas: list[int])->int:
@@ -235,3 +249,50 @@ def saldo_actual(movimientos: list[tuple[str, int]])->int:
 
 movimientos = [("I",2000), ("R", 20), ("R", 1000), ("I", 300)]
 print(saldo_actual(movimientos))
+
+
+#MATRICES
+
+#Ejercicio 6
+
+#item 1:
+def es_matriz(s: list[list[int]])->bool:
+     for i in range(len(s)-1):
+          if len(s[i]) != len(s[i+1]):
+               return False
+     return True
+
+#item 2:
+def filas_ordenadas(m: list[list[int]])->list[bool]:
+     res: list[bool] = []
+     for i in range(len(m)):
+          res.append(ordenados(m[i]))
+     return res
+
+#item 3:
+def columna(m: list[list[int]], c: int)->list[int]:
+     saco_columna: list[int] = []
+     for i in range(len(m)):
+          for j in range(len(m[i])):
+               if j == c:
+                    saco_columna.append(m[i][j])
+     return saco_columna
+
+#item 4:
+def columnas_ordenadas(m: list[list[int]])->list[bool]:
+     c: list[bool] = []
+     for i in range(len(m)):
+          c.append(ordenados(columna(m, i)))
+     return c
+
+#item 5:
+def transponer(m: list[list[int]])->list[list[int]]:
+     mt : list[list[int]] = []
+     for i in range(len (m[0])):
+          mt.append(columna(m, i))
+     return mt
+
+#[[1,2,3] [4,5,6] [7,8,9]] -> [[1,4,7] [2,5,8] [3,6,9]]
+
+#item 6:
+#HACERLO
