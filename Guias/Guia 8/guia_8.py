@@ -13,7 +13,7 @@ def generar_nros_al_azar(cantidad: int, desde: int, hasta: int)->Pila[int]:
     return res
 
 #Ejercicio 2:
-def cantidad_elementos(p: Pila) -> int: #cuando paso como parámetro una pila, tengo que restaurarla
+def cantidad_elementos(p: Pila) -> int: #cuando paso como parámetro de entrada una pila y uso get() para recorrerla, voy a tener que restaurarla
     pila_auxiliar: Pila[int] = copy(p)  #genero una copia para no modificar la pila original
     res: int = 0
     while pila_auxiliar.empty() != True:
@@ -53,7 +53,6 @@ def buscar_nota_maxima(p: Pila[tuple[str, int]])->tuple[str, int]:
     res: tuple[str, int] = pila_auxiliar.get()
     while pila_auxiliar.empty() != True:
         tupla = pila_auxiliar.get()
-        nota = tupla[1]
         if tupla[1] > res[1]:
             res = tupla 
         
@@ -67,3 +66,4 @@ p.put(("Sofia", 10))
 p.put(("Ramiro", 6))
 print(buscar_nota_maxima(p))
 """
+
