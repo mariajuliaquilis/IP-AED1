@@ -125,3 +125,41 @@ multiplosDeN n s | longitud(s)    == 0 = s
 ordenar :: [Integer] -> [Integer]
 ordenar s | longitud(s) == 0 = s 
           | otherwise = (ordenar(quitarTodos(maximo s) s))++[maximo s]
+
+--Ejercicio 6:
+type Texto = [Char]
+type Nombre = Texto
+type Telefono = Texto
+type Contacto = (Nombre, Telefono)
+type ContactosTel = [Contacto]
+
+--Ejercicio 7:
+type Identificacion = Integer
+type Ubicacion = Texto
+type Estado = (Disponibilidad, Ubicacion)
+type Locker = (Identificacion, Estado)
+type MapaDeLockers = [Locker] -- [Locker] = [(Identificacion, Estado)] = [(Identificacion, (Disponibilidad, Ubicacion))]
+type Disponibilidad = Bool
+
+--item 1)
+existeElLocker :: Identificacion -> MapaDeLockers -> Bool
+existeElLocker n m | m == [] = False
+                   | otherwise = n == fst(head m) || existeElLocker n (tail m)     
+
+--item 2)
+ubicacionDelLocker :: Identificacion -> MapaDeLockers -> Ubicacion
+ubicacionDelLocker n m | n == fst(head m) = snd(snd(head m))
+                       | otherwise = ubicacionDelLocker n (tail m)
+
+--item 3)
+estaDisponibleElLocker :: Identificacion -> MapaDeLockers -> Bool
+estaDisponibleElLocker n m | n == fst(head m) = fst(snd(head m))
+                           | otherwise = estaDisponibleElLocker n (tail m)
+
+--item 4)
+ocuparLocker :: Identificacion -> MapaDeLockers -> MapaDeLockers
+ocuparLocker n m | not(estaDisponibleElLocker n m) = m 
+                 | n == fst(head m) = ocuparLocker n ((n, (False, snd(snd(head m)))):(tail(quitar(head m) m)))
+                 | otherwise = (head m):ocuparLocker n (tail m)
+   
+           
