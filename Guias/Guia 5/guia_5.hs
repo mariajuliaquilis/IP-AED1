@@ -133,6 +133,29 @@ type Telefono = Texto
 type Contacto = (Nombre, Telefono)
 type ContactosTel = [Contacto]
 
+--implemento la sugerencia:
+elNombre :: Contacto -> Nombre
+elNombre c = fst(c)
+
+elTelefono :: Contacto -> Telefono
+elTelefono c = snd(c)
+
+--item a)
+enLosContactos :: Nombre -> ContactosTel -> Bool
+enLosContactos n c | c == [] = False
+                   | otherwise = n == elNombre(head(c)) || enLosContactos n (tail c)
+
+--item b)
+agregarContacto :: Contacto -> ContactosTel -> ContactosTel
+agregarContacto t c | not(enLosContactos (elNombre t) c) = t:c 
+                    | elNombre t == elNombre(head c) = (elNombre t, elTelefono t):(eliminarContacto (elNombre t) c)  
+                    | otherwise = (head c):(agregarContacto t (tail c))  
+--item c)
+eliminarContacto :: Nombre -> ContactosTel -> ContactosTel
+eliminarContacto n c | not(enLosContactos n c) = c 
+                     | n == elNombre(head c) = (tail c)
+                     | otherwise = (head c):(eliminarContacto n (tail c))
+
 --Ejercicio 7:
 type Identificacion = Integer
 type Ubicacion = Texto
@@ -160,6 +183,5 @@ estaDisponibleElLocker n m | n == fst(head m) = fst(snd(head m))
 ocuparLocker :: Identificacion -> MapaDeLockers -> MapaDeLockers
 ocuparLocker n m | not(estaDisponibleElLocker n m) = m 
                  | n == fst(head m) = ocuparLocker n ((n, (False, snd(snd(head m)))):(tail(quitar(head m) m)))
-                 | otherwise = (head m):ocuparLocker n (tail m)
-   
+                 | otherwise = (head m):ocuparLocker n (tail m)   
            
