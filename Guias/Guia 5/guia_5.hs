@@ -118,13 +118,48 @@ pares s | longitud(s)    == 0 = s
 --item 8)
 multiplosDeN :: Integer -> [Integer] -> [Integer]
 multiplosDeN n s | longitud(s)    == 0 = s
-                 | mod (head s) n == 1 = multiplosDeN n (quitarTodos (head s) s)
-                 | otherwise = (head s):(multiplosDeN n (tail s))
+                 | mod (head s) n == 0 = (head s):(multiplosDeN n (tail s))
+                 | otherwise = multiplosDeN n (quitarTodos (head s) s)
 
 --item 9)
 ordenar :: [Integer] -> [Integer]
 ordenar s | longitud(s) == 0 = s 
           | otherwise = (ordenar(quitarTodos(maximo s) s))++[maximo s]
+
+--Ejercicio 5:
+
+--item 1)
+sumaAcumulada :: (Num t) => [t] -> [t]
+sumaAcumulada s | longitud(s) == 1 = s 
+                | otherwise = (head s):sumaAcumulada((head s + (head(tail s))):(tail(tail s)))
+
+--item 2)
+--Utilizo las funciones de la práctica 4
+minimoDivisorDeN :: Integer -> Integer -> Integer
+minimoDivisorDeN n i | mod n i == 0 = i --me quedo con el primer numero natural que divide
+                     | otherwise = minimoDivisorDeN n (i+1) --pruebo con el siguiente natural
+
+menorDivisor :: Integer -> Integer
+menorDivisor 1 = 1
+menorDivisor n = minimoDivisorDeN n 2
+
+esPrimo :: Integer -> Bool
+esPrimo 1 = False
+esPrimo n = (n == menorDivisor n)
+
+listaDePrimosHasta :: Integer -> Integer -> [Integer] --asumo que d >= 2
+listaDePrimosHasta d h | d > h = []
+                       | esPrimo(d) = d:(listaDePrimosHasta (d+1) h) 
+                       | otherwise = listaDePrimosHasta (d+1) h
+
+listaDeDivisoresPrimosDeN :: Integer -> [Integer] -> [Integer]
+listaDeDivisoresPrimosDeN n s | longitud(s) == 0 = s 
+                              | mod n (head s) == 0 = (head s):(listaDeDivisoresPrimosDeN (div n (head s)) s)
+                              | otherwise = listaDeDivisoresPrimosDeN n (tail s)
+
+descomponerEnPrimos :: [Integer] -> [[Integer]]
+descomponerEnPrimos s | longitud(s) == 1 = [listaDeDivisoresPrimosDeN (head s) (listaDePrimosHasta (menorDivisor (head s)) (head s))]
+                      | otherwise = [listaDeDivisoresPrimosDeN (head s) (listaDePrimosHasta (menorDivisor (head s)) (head s))]++(descomponerEnPrimos (tail s))
 
 --Ejercicio 6:
 type Texto = [Char]
