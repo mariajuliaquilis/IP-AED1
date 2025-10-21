@@ -1,6 +1,7 @@
 from queue import LifoQueue as Pila #importa LifoQueue y le asigna el alias Pila
 from queue import Queue as Cola #importa Queue y le asigna el alias Cola
 from random import randint
+from typing import TextIO
 
 #PILAS
 
@@ -236,3 +237,53 @@ def intercalar(c1: Cola, c2: Cola) -> Cola:
         res.put(c1_aux.get())
         res.put(c2_aux.get())
     return res
+
+#DICCIONARIOS
+
+#Ejercicio 16:
+def promedio(lista: list[float])->float:
+    res: float = 0.0
+    for i in range(len(lista)):
+        res+=lista[i]
+    return res/len(lista)
+
+def lista_notas_estudiante(estudiante: str, notas: list[tuple[str, float]])->list[float]:
+    res: list[float] = []
+    for i in range(len(notas)):
+        if estudiante == notas[i][0]:
+            res.append(notas[i][1])
+    return res
+
+def promedio_por_estudiante(notas: list[tuple[str, float]])->dict[str, float]:
+    diccionario: dict[str, float] = {}
+    for i in range(len (notas)):
+        estudiante: str = notas[i][0]
+        diccionario[estudiante] = promedio(lista_notas_estudiante(estudiante, notas))    
+    return diccionario
+
+"""
+notas: list[tuple[str, float]] = [("Sole", 9.5), ("Maxi", 8.0), ("Sole", 9.0)]
+print(promedio_por_estudiante(notas))
+
+notas_1: list[tuple[str, float]] = [("Sole", 9.5), ("Maxi", 8.0), ("Sole", 9.0), ("Marcos", 3.0), ("Pilar", 6.0), ("Maxi", 2.0), ("Marcos", 9.0)]
+print(promedio_por_estudiante(notas_1))
+"""
+
+#Ejercicio 17
+
+#item 1)
+historiales: dict[str, Pila[str]] = {} #así creo un diccionario
+
+print(historiales)
+
+#Ejercicio 19
+#item 1)
+def contar_lineas(nombre_archivo: str)->int:
+    cant_lineas: int = 0
+    archivo: TextIO = open(nombre_archivo, "r") #abro un archivo en modo lectura
+    cant_lineas = len(archivo.readlines())      #readlines() lee todas las líneas del archivo y las devuelve como una lista
+    archivo.close()                             #cierro el archivo
+    return cant_lineas
+
+nombre_archivo = "guia_8.py"
+print(contar_lineas(nombre_archivo))
