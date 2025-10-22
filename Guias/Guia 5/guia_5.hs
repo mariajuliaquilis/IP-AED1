@@ -247,3 +247,23 @@ cantidadDeApariciones2 :: (Eq a) => a -> [[a]] -> Integer
 cantidadDeApariciones2 e m | longitud(m) == 1 = cantidadDeApariciones e (head m)
                            | otherwise = cantidadDeApariciones e (head m) + cantidadDeApariciones2 e (tail m)
 
+--item 5)
+multiplicoCadaFila :: Integer -> [Integer] -> [Integer]
+multiplicoCadaFila lambda f | longitud(f) == 0 = []
+                            | otherwise = (lambda*(head f)):multiplicoCadaFila lambda (tail f)   
+
+multiplicarPorEscalar :: Integer -> [[Integer]] -> [[Integer]]
+multiplicarPorEscalar lambda m | longitud(m) == 1 = [multiplicoCadaFila lambda (head m)]
+                               | otherwise = (multiplicoCadaFila lambda (head m)):(multiplicarPorEscalar lambda (tail m))
+
+--item 6)
+
+--item 7)
+extraigoFila :: Integer -> [[a]] -> Integer -> [a]
+extraigoFila i m c | longitud(m) == 0 []
+                   | 
+
+
+iesimaFila :: Integer -> [[a]] -> [a]
+iesimaFila i m | 
+               
