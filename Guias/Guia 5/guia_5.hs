@@ -126,6 +126,8 @@ ordenar :: [Integer] -> [Integer]
 ordenar s | longitud(s) == 0 = s 
           | otherwise = (ordenar(quitarTodos(maximo s) s))++[maximo s]
 
+--Ejercicio 4:
+
 --Ejercicio 5:
 
 --item 1)
@@ -220,3 +222,28 @@ ocuparLocker n m | not(estaDisponibleElLocker n m) = m
                  | n == fst(head m) = ocuparLocker n ((n, (False, snd(snd(head m)))):(tail(quitar(head m) m)))
                  | otherwise = (head m):ocuparLocker n (tail m)   
            
+--Ejercicio 8:
+--item 1)
+sumoFilaMatrices :: [Integer] -> Integer
+sumoFilaMatrices f | longitud(f) == 0 = 0
+                   | otherwise = (head f) + sumoFilaMatrices(tail f)   
+
+sumaTotal :: [[Integer]] -> Integer
+sumaTotal m | longitud(m) == 1 = sumoFilaMatrices(head(m))
+            | otherwise = sumoFilaMatrices(head(m)) + sumaTotal(tail(m))
+
+--item 2)
+cantidadDeAparicionesEnUnaMatriz :: Integer -> [[Integer]] -> Integer
+cantidadDeAparicionesEnUnaMatriz e m | longitud(m) == 1 = cantidadDeApariciones e (head m)
+                                     | otherwise = cantidadDeApariciones e (head m) + cantidadDeAparicionesEnUnaMatriz e (tail m)
+
+--item 3)
+contarPalabras :: String -> [[String]] -> Integer
+contarPalabras p m | longitud(m) == 1 = cantidadDeApariciones p (head m)
+                   | otherwise = cantidadDeApariciones p (head m) + contarPalabras p (tail m)
+
+--item 4)
+cantidadDeApariciones2 :: (Eq a) => a -> [[a]] -> Integer
+cantidadDeApariciones2 e m | longitud(m) == 1 = cantidadDeApariciones e (head m)
+                           | otherwise = cantidadDeApariciones e (head m) + cantidadDeApariciones2 e (tail m)
+
