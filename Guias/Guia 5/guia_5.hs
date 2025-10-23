@@ -127,6 +127,26 @@ ordenar s | longitud(s) == 0 = s
           | otherwise = (ordenar(quitarTodos(maximo s) s))++[maximo s]
 
 --Ejercicio 4:
+--Punto a:
+
+--item a)
+
+--item b)
+
+--item c)
+
+--item d)
+
+--item e)
+--[Char] -> String
+--[[Char]] -> [String]
+aplanar :: [[Char]] -> [Char]
+aplanar l | longitud(l) == 0 = ""
+          | otherwise = (head l)++aplanar(tail l)
+
+--item f)
+
+--item g)
 
 --Ejercicio 5:
 --item 1)
@@ -256,13 +276,9 @@ multiplicarPorEscalar lambda m | longitud(m) == 1 = [multiplicoCadaFila lambda (
                                | otherwise = (multiplicoCadaFila lambda (head m)):(multiplicarPorEscalar lambda (tail m))
 
 --item 6)
-concatenoFila :: [String] -> String
-concatenoFila f | longitud(f) == 0 = ""
-                | otherwise = (head f)++(concatenoFila (tail f))
-
 concatenarFilas :: [[String]] -> [String] 
 concatenarFilas m | longitud(m) == 0 = []
-                  | otherwise = (concatenoFila (head m)):concatenarFilas(tail m)
+                  | otherwise = (aplanar(head m)):concatenarFilas(tail m)
 
 --item 7)
 iesimaFila ::  Integer -> [[a]] -> [a]
