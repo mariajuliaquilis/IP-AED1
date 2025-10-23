@@ -129,7 +129,6 @@ ordenar s | longitud(s) == 0 = s
 --Ejercicio 4:
 
 --Ejercicio 5:
-
 --item 1)
 sumaAcumulada :: (Num t) => [t] -> [t]
 sumaAcumulada s | longitud(s) == 1 = s 
@@ -257,13 +256,17 @@ multiplicarPorEscalar lambda m | longitud(m) == 1 = [multiplicoCadaFila lambda (
                                | otherwise = (multiplicoCadaFila lambda (head m)):(multiplicarPorEscalar lambda (tail m))
 
 --item 6)
+concatenoFila :: [String] -> String
+concatenoFila f | longitud(f) == 0 = ""
+                | otherwise = (head f)++(concatenoFila (tail f))
+
+concatenarFilas :: [[String]] -> [String] 
+concatenarFilas m | longitud(m) == 0 = []
+                  | otherwise = (concatenoFila (head m)):concatenarFilas(tail m)
 
 --item 7)
-extraigoFila :: Integer -> [[a]] -> Integer -> [a]
-extraigoFila i m c | longitud(m) == 0 []
-                   | 
+iesimaFila ::  Integer -> [[a]] -> [a]
+iesimaFila i m | i == 0 = (head m)
+               | otherwise = iesimaFila (i-1) (tail m)
 
-
-iesimaFila :: Integer -> [[a]] -> [a]
-iesimaFila i m | 
-               
+--item 8)
