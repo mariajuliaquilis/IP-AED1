@@ -26,7 +26,17 @@ Ejemplo 2: dada los siguientes inputs:
 calificaciones = [10,55,60,65,54,64,65,55,45,57]; nota_minima = 70
 se debería devolver res = 0, ya que no hay ninguna subsecuencia de calificaciones con elementos mayores o iguales a nota_minima 
 """
-
-
-def seguidilla (calificaciones: List[int], nota_minima: int)-> int:
-    return 0.0
+def seguidilla (calificaciones: List[int], nota_minima: int) -> int:
+  subsecActual: List[int] = []
+  subsecMasLarga: List[int] = []
+  for i in range(len(calificaciones)):
+    calificacion: int = calificaciones[i]
+    if calificacion >= nota_minima:
+      subsecActual.append(calificacion)
+    else:
+      if len(subsecMasLarga) <= len(subsecActual):
+        subsecMasLarga = subsecActual
+      subsecActual = []
+  if len(subsecMasLarga) <= len(subsecActual):
+    subsecMasLarga = subsecActual
+  return len(subsecMasLarga)

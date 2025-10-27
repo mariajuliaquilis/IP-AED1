@@ -30,5 +30,14 @@ super1 = [("leche", 151.0), ("yerba", 4719.5), ("jabón", 269.2)]
 super2 = [("leche", 261.2), ("yerba", 3939.1), ("jabón", 319.2)]
 se debería devolver res = [("leche", 151.0), ("yerba", 3939.1), ("jabón", 269.2)] 
 """
-def mejores_precios(super1: List[Tuple[str, float]], super2: List[Tuple[str, float]])-> List[Tuple[str, float]]:
-    return []
+def mejores_precios(super1: List[Tuple[str, float]], super2: List[Tuple[str, float]]) -> List[Tuple[str, float]]:
+  res: List[Tuple[str, float]] = []
+  #No chequeo qué pasa si las longitudes de las listas son distintas pues el usuario no estaría cumpliendo el contrato
+  for i in range(len(super1)):
+    elementoSuper1: Tuple[str, float] = super1[i] #Accedo a los elementos de la lista de super1
+    elementoSuper2: Tuple[str, float] = super2[i] #Puedo hacer esto porque super1 y super2 tienen las mismas longitudes
+    if elementoSuper1[1] < elementoSuper2[1]:     #Comparo los precios
+      res.append(elementoSuper1)
+    else:
+      res.append(elementoSuper2)        
+  return res

@@ -23,5 +23,15 @@ elem= 1; M = [
 ]
 se debería devolver res = [true, true, true,false,false] 
 """
+#Consultar: debo asumir que me pueden pasar cualquier entrada ya que la especificación no tiene un requiere?
+#Pensé el ejercicio asumiendo que el usuario me debe pasar n elem, siendo n la longitud de la matriz
 def elem_en_pos_pares(matriz: List[List[int]], elem: int) -> List[bool]:
-    return []
+    res: List[bool] = []
+    for i in range(len(matriz)):        #Accedo a las filas
+        for j in range(len(matriz[i])): #Accedo a los elementos
+            if matriz[i][j] == elem:
+              if j % 2 == 0:
+                  res.append(True)
+              else:
+                  res.append(False)
+    return res
