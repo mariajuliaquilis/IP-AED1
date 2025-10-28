@@ -20,3 +20,9 @@ s1 = [1, 3, 0, 1]
 s2 = [4, 0, 2, 3]
 se debería devolver res = [1, 4, 3, 0, 0, 2, 1, 3]
 """
+def mezclar(s1: list[int], s2: list[int]) -> list[int]:
+  res: list[int] = []
+  for i in range(len(s1)):
+    res.append(s1[i])
+    res.append(s2[i])
+  return res

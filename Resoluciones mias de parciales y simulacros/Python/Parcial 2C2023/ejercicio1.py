@@ -25,3 +25,21 @@ n = 2
 elem = 1
 se debería devolver res = 2
 """
+
+def cant_apariciones(s: list[int], elem: int) -> int:
+  cantidad: int = 0
+  for i in range(len(s)):
+    if s[i] == elem:
+       cantidad+=1
+  return cantidad
+
+def ind_nesima_aparicion(s: list[int], n: int, elem: int) -> int:
+  contador: int = 0
+  res: int = -1
+  if cant_apariciones(s, elem) >= n:
+    for i in range(len(s)):
+       if s[i] == elem:
+        contador+=1
+        if contador == n:
+          return i
+  return res        

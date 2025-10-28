@@ -30,3 +30,21 @@ se debería devolver res = {"petisa": [1,1,0,0],
                                           "linda": [1,0,1,0],
                                           "luck": [0,0,0,2]}
 """
+def posiciones_por_caballo_en_tal_carrera(caballo: str, posiciones: list[str]) -> int:
+  posicion: int = 0
+  for i in range(len(posiciones)):
+    if posiciones[i] == caballo:
+      return i 
+  return posicion
+
+def frecuencia_posiciones_por_caballo(caballos: list[str], carreras: dict[str, list[str]]) -> dict[str, list[int]]:
+  res: dict[str, list[int]] = {}
+  for caballo in caballos:
+    lista_caballo: list[int] = [0]*len(caballos) #Crea una lista con tantos ceros como caballos para cada caballo
+    for posiciones in carreras.values(): 
+      lista_caballo[posiciones_por_caballo_en_tal_carrera(caballo, posiciones)]+=1
+    res[caballo] = lista_caballo
+  return res
+
+
+  
