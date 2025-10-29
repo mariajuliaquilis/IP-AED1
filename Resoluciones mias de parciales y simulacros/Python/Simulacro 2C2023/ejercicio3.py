@@ -14,3 +14,11 @@ aleman = {"Mano": "Hand", "Pie": "Fuss", "Dedo": "Finger", "Cara": "Gesicht"}
 inglés = {"Pie": "Foot", "Dedo": "Finger", "Mano": "Hand"}
 se debería devolver res=2
 """
+
+def contar_traducciones_iguales(ing: dict[str, str], ale: dict[str, str]) -> int:
+   contador: int = 0
+   for palabra_ing, traduccion_ing in ing.items():
+      for palabra_ale, traduccion_ale in ale.items():
+         if palabra_ing == palabra_ale and traduccion_ing == traduccion_ale:
+            contador+=1
+   return contador
