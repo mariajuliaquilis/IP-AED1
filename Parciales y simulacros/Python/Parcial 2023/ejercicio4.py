@@ -32,3 +32,26 @@ torneos= {2023:["nz", "sud", "arg", "aus"], 2022:["nz", "sud", "aus", "arg"]}
 se debería devolver res = {"arg": [0,0,1,1], "aus": [0,0,1,1], "nz": [2,0,0,0],
 "sud": [0,2,0,0]}
 """
+
+"""
+Implementar la función cuenta_posiciones_por_nacion que dada la lista de
+naciones que compiten en el torneo, y el diccionario que tiene los resultados
+de los torneos anuales en el formato año:posiciones_naciones, donde año es un
+número entero y posiciones_naciones es una lista de strings con los nombres de
+las naciones, genere un diccionario de naciones:#posiciones
+"""
+def posicion_en_la_que_quedo_la_nacion(nacion: str, posiciones: list[str]) -> int:
+    posicion: int = 0
+    for i in range(len(posiciones)):
+        if nacion == posiciones[i]:
+            posicion = i 
+    return posicion
+
+def cuenta_posiciones_por_nacion(naciones: list[str], torneos: dict[int, list[str]]) -> dict[str, list[int]]:
+    res: dict[str, list[int]] = {}
+    for i in range(len(naciones)):
+        lista_ceros = [0]*len(naciones)
+        for posiciones in torneos.values():
+            lista_ceros[posicion_en_la_que_quedo_la_nacion(naciones[i], posiciones)]+=1
+            res[naciones[i]] = lista_ceros
+    return res

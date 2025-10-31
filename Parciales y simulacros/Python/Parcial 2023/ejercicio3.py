@@ -22,3 +22,11 @@ se debería devolver res = true
 TIP: para dividir un número entero x por 2 y obtener como resultado un número
 entero puede utilizarse la siguiente instrucción: int(x/2)
 """
+
+def columnas_repetidas(mat: list[list[int]]) -> bool:
+    for i in range(0, len(mat)):
+        for j in range(0, int(len(mat[0])/2)):
+            k: int = int(len(mat[0])/2) + j
+            if mat[i][j] != mat[i][k]:
+                return False
+    return True

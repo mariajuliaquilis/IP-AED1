@@ -4,7 +4,7 @@ El próximo 19 de Noviembre se realizará en Argentina la segunda vuelta de las
 elecciones presidenciales. En esta competirán solo 2 listas (Lista UP; Lista
 LLA). En la mayor parte del país los salones de las escuelas ofician de cuartos
 oscuros. En ellos, las autoridades de mesa colocan las boletas sobre los
-pupitres. Dado que esta elección se realizará en una eṕoca donde muy
+pupitres. Dado que esta elección se realizará en una época donde muy
 probablemente haga mucho calor, no será raro el caso en el cual las boletas se
 vuelen y mezclen a causa de ventiladores prendidos a máxima potencia. Cuando
 esto ocurra, las autoridades deberán entrar al cuarto oscuro, juntar todas las
@@ -28,3 +28,16 @@ Por ejemplo, dada
 s = ["LLA", "UP", "LLA", "LLA", "UP"]
 se debería devolver res = ["UP", "UP", "LLA", "LLA", "LLA"]
 """
+
+def acomodar(s: list[str]) -> list[str]:
+    res: list[str] = []
+    lista_UP: list[str] = []
+    lista_LLA: list[str] = []
+    for i in range(len(s)):
+        if s[i] == "UP":
+            lista_UP.append(s[i])
+        else:
+            lista_LLA.append(s[i])
+    res+=lista_UP
+    res+=lista_LLA   
+    return res

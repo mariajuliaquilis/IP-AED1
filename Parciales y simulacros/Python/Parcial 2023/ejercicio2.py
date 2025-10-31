@@ -27,3 +27,13 @@ s = [1,-2,0,5,-7,3]
 u = 5
 se debería devolver res = 3
 """
+
+def pos_umbral(s: list[int], u: int) -> int:
+    res: int = -1
+    sumatoria: int = 0
+    for i in range(len(s)):
+        if s[i] > 0:
+            sumatoria+=s[i]
+            if sumatoria > u:
+                return i
+    return res
