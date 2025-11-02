@@ -23,9 +23,36 @@ problema orden_de_atencion(in urgentes: cola⟨Z⟩, in postergables: cola⟨Z�
   asegura: {Para todo c1 y c2 de tipo "postergable" pertenecientes a postergables si c1 aparece 
             antes que c2 en postergables entonces c1 aparece antes que c2 en res}
 """
-def orden_de_atencion(urgentes: Cola[int], postergables: Cola[int]) -> Cola[int]:
-    return
+def copia_cola(cola: Cola[int]) -> Cola[int]:
+  cola_auxiliar: Cola[int] = Cola()
+  cola_copiada: Cola[int] = Cola()
 
+  #invertimos la cola
+  while not cola.empty():
+    elemento: int = cola.get()
+    cola_auxiliar.put(elemento)
+
+  #hago la copia y restauro la cola original
+  while not cola_auxiliar.empty():
+    otroElemento: int = cola_auxiliar.get()
+    cola.put(otroElemento)
+    cola_copiada.put(otroElemento)
+
+  return cola_copiada
+   
+def orden_de_atencion(urgentes: Cola[int], postergables: Cola[int]) -> Cola[int]:
+  copia_postergables: Cola[int] = copia_cola(postergables)
+  copia_urgentes: Cola[int] = copia_cola(urgentes)
+  res: Cola[int] = Cola()
+
+  while not copia_postergables.empty():
+    while not copia_urgentes.empty():
+      elemento_urgente: int = copia_urgentes.get()
+      elemento_postergable: int = copia_postergables.get()
+      res.put(elemento_urgente)
+      res.put(elemento_postergable)
+
+  return res
 
 """
 Ejercicio 2: Alarma epidemiológica. (3 puntos)
@@ -45,10 +72,21 @@ problema alarma_epidemiologica (registros: seq⟨ZxString⟩, infecciosas: seq�
             sobre el total de registros es menor que el umbral, entonces enfermedad no aparece en res}
 }
 """
-
 def alarma_epidemiologica(registros: list[tuple[int, str]], infecciosas: list[str], umbral: float) -> dict[str, float]:
-    res: dict[str, float] = {}
-    return res 
+  res: dict[str, float] = {}
+
+  for i in range(len(infecciosas)):
+    enfermedad: str = infecciosas[i]
+    pacientes: list[int] = []
+    for j in range(len(registros)):
+      if registros[j][1] == enfermedad:
+        pacientes.append(registros[j][0])
+    if len(registros) != 0:
+      porcentaje_pacientes_por_enfermedad: float = len(pacientes)/len(registros)
+      if porcentaje_pacientes_por_enfermedad >= umbral:
+        res[enfermedad] = porcentaje_pacientes_por_enfermedad    
+  
+  return res 
 
 
 """
@@ -65,11 +103,28 @@ problema empleados_del_mes(horas:dicc⟨Z,seq⟨Z⟩⟩) : seq⟨Z⟩ {
             entonces ID pertences a res}
 }
 """
+def cantidad_total_horas(cantidad_horas: list[int]) -> int:
+  suma: int = 0
+  for i in range(len(cantidad_horas)):
+    suma+=cantidad_horas[i]
+  return suma 
 
 def empleados_del_mes(horas: dict[int, list[int]]) -> list[int]:
-    res: list[int] = []
-    return res
+  res: list[int] = []
+  horas_trabajadas_por_empleado: list[int] = []
+  for horas_trabajadas in horas.values():
+    horas_trabajadas_por_empleado.append(cantidad_total_horas(horas_trabajadas))
+  
+  maximo_valor: int = 0
+  for i in range(len(horas_trabajadas_por_empleado)):
+    if horas_trabajadas_por_empleado[i] >= maximo_valor:
+      maximo_valor = horas_trabajadas_por_empleado[i]
 
+  for empleado, horas_totales in horas.items():
+    if maximo_valor == cantidad_total_horas(horas_totales):
+      res.append(empleado)
+           
+  return res
 
 """
 Ejercicio 4: Nivel de ocupación del hospital (2 puntos)
@@ -87,8 +142,18 @@ problema nivel_de_ocupacion(camas_por_piso:seq⟨seq⟨Bool⟩⟩) : seq⟨R⟩ 
 
 """
 def nivel_de_ocupacion(pisos: list[list[bool]]) -> list[float]:
-    res: list[float] = []
-    return res
+  res: list[float] = []
+
+  for i in range(len(pisos)):
+    camas_ocupadas: list[bool] = []
+    for j in range(len(pisos[0])):
+      if pisos[i][j] == True:
+        camas_ocupadas.append(pisos[i][j])
+
+    proporcion_camas_ocupadas: float = len(camas_ocupadas)/len(pisos[i])
+    res.append(proporcion_camas_ocupadas)
+
+  return res
 
 """
 Ejercicio 5: Preguntas teóricas (2 puntos)
@@ -114,3 +179,7 @@ C) ¿Qué representa un nodo en un Control Flow Graph? (0.5 puntos)
  2) Una condición lógica o una instrucción en el código.
  3) Un archivo de datos externo
 """
+
+#Ejercicio 5 a) Una variable definida dentro de una función, que solo puede ser utilizada dentro de esa función.
+#Ejercicio 5 b) Una herramienta que permite la ejecución condicional y repetitiva de bloques de código.
+#Ejercicio 5 c) Una condición lógica o una instrucción en el código.
