@@ -9,7 +9,7 @@ Se hizo un torneo para ver quién es el menos gallina. Juegan todos contra todos
 Si dos jugadores juegan y se chocan entre sí, entonces pierde cada uno 5 puntos por haberse dañado. 
 Si ambos jugadores se desvían, pierde cada uno 10 puntos por gallinas. 
 Si uno no se desvía y el otro sí, el gallina pierde 15 puntos por ser humillado y el ganador suma 10 puntos! 
-En este torneo, cada persona que participa tiene una estrategia predefinida para competir: o siempre se devía, o nunca lo hace. 
+En este torneo, cada persona que participa tiene una estrategia predefinida para competir: o siempre se desvía, o nunca lo hace. 
 Se debe programar la función 'torneo_de_gallinas' que recibe un diccionario (donde las claves representan los nombres de los 
 participantes que se anotaron en el torneo, y los valores sus respectivas estrategias) y devuelve un diccionario con los puntajes 
 obtendidos por cada jugador.
@@ -52,10 +52,41 @@ problema reordenar_cola_priorizando_vips (in filaClientes: Cola⟨String x Strin
             entonces el nombre de c1 aparece antes que el nombre de c2 en res}
 }
 """
+def copia_cola(cola: Cola[tuple[str, str]]) -> Cola[tuple[str, str]]:
+  cola_auxiliar: Cola[tuple[str, str]] = Cola()
+  cola_copiada: Cola[tuple[str, str]] = Cola()
+  #Invertimos la cola pasada como parámetro
+  while not cola.empty():
+    elemento: tuple[str, str] = cola.get()
+    cola_auxiliar.put(elemento)
+  #Restauro la cola original
+  while not cola_auxiliar.empty():
+     otro_elemento: tuple[str, str] = cola_auxiliar.get()
+     cola.put(otro_elemento)
+     cola_copiada.put(otro_elemento)
+  return cola_copiada
 
 def reordenar_cola_priorizando_vips(filaClientes: Cola[tuple[str, str]]) -> Cola[str]:
-    return 
+  copia_filaClientes: Cola[tuple[str, str]] = copia_cola(filaClientes)
+  afiliados_de_tipo_comun: Cola[str] = Cola()
+  afiliados_de_tipo_vip: Cola[str] = Cola()
+  res: Cola[str] = Cola()
 
+  while not copia_filaClientes.empty():
+    elemento: tuple[str, str] = copia_filaClientes.get()
+    if elemento[1] == "comun":
+      afiliados_de_tipo_comun.put(elemento[0])
+    else:
+      afiliados_de_tipo_vip.put(elemento[0])
+
+  while not afiliados_de_tipo_vip.empty():
+    cliente_vip: str = afiliados_de_tipo_vip.get()
+    res.put(cliente_vip)
+  while not afiliados_de_tipo_comun.empty():
+    cliente_comun: str = afiliados_de_tipo_comun.get()
+    res.put(cliente_comun)   
+    
+  return res
 
 """
 Ejercicio 3) Sufijos que son palíndromos (2 puntos)
@@ -67,15 +98,32 @@ problema cuantos_sufijos_son_palindromos(in texto:String) : Z {
   requiere: -
   asegura: {res es igual a la cantidad de palíndromos que hay en el conjunto de sufijos de texto}
 }
-Nota: un sufijo es una subsecuencia de texto que va desde una posición cualquiera hasta el al final de la palabra. 
+Nota: un sufijo es una subsecuencia de texto que va desde una posición cualquiera hasta el final de la palabra. 
 Ej: "Diego", el conjunto de sufijos es: "Diego", "iego","ego","go", "o". 
 Para este ejercicio no consideraremos a "" como sufijo de ningun texto.
 """
+def es_palindromo(texto: str) -> bool:
+  for i in range(0, len(texto)):
+    if i <= len(texto)-i-1:
+      if texto[i] != texto[len(texto)-i-1]:
+        return False
+  return True
+
+def cant_palindromos(subsecuencias: list[str]) -> int:
+  cantidad: int = 0
+  for i in range(len(subsecuencias)):
+    if es_palindromo(subsecuencias[i]):
+      cantidad+=1
+  return cantidad
 
 def cuantos_sufijos_son_palindromos(texto: str) -> int:
-    res: int = 0
-    return res
-
+  sufijos: list[str] = []
+  for i in range(len(texto)):
+    sufijo: str = ""
+    for j in range(i, len(texto)):
+      sufijo = sufijo+texto[j]
+    sufijos.append(sufijo)
+  return cant_palindromos(sufijos)
 
 """
 Ejercicio 4) Ta-Te-Ti-Facilito (2 puntos)
@@ -102,10 +150,22 @@ problema quien_gano_el_tateti_facilito(in tablero:seq⟨seq⟨Char⟩) : Z {
   asegura: {res = 3 <==> hay tres 'X' y hay tres 'O' consecutivas en forma vertical (evidenciando que beto hizo trampa)}
 }
 """
-
 def quien_gano_el_tateti_facilito(tablero: list[list[str]]) -> int:
-    res: int = 0
-    return res
+  for i in range(len(tablero[0])):
+    contador_X: int = 0
+    contador_O: int = 0
+    for j in range(len(tablero)):
+      if tablero[j][i] == "X":
+        contador_X+=1
+      elif tablero[j][i] == "O":
+        contador_O+=1
+      if contador_X == 3 and contador_O == 3:
+        return 3
+      elif contador_X == 3:
+        return 1
+      elif contador_O == 3:
+        return 2
+  return 0
 
 
 """
@@ -130,3 +190,7 @@ C) ¿Cuál es la finalidad de un Control Flow Graph en testing? (0.5 punto)
 2) Visualizar todos los posibles caminos de ejecución para asegurar la cobertura completa del código.
 3) Determinar los puntos de entrada y salida del programa.
 """
+
+#Ejercicio 5 A) Un contenedor para almacenar datos que puede cambiar durante la ejecución del programa.
+#Ejercicio 5 B) Ejecutar repetidamente un conjunto de instrucciones hasta que una condición se evalúe como falsa.
+#Ejercicio 5 C) Visualizar todos los posibles caminos de ejecución para asegurar la cobertura completa del código.
