@@ -10,20 +10,49 @@ La función debe procesar esta lista y devolver un diccionario que tenga como cl
 y máximo stock histórico registrado.
 
 problema stock_productos (in stock_cambios: seq⟨(String x Z)) : dict⟨String, (Z x Z)⟩ {
-  requiere: { Todos los elementos de stock_cambios están formados por un String no vacío y un entero ≥ 0 }
+  requiere:{Todos los elementos de stock_cambios están formados por un String no vacío y un entero ≥ 0}
   asegura: {res tiene como claves solo los primeros elementos de las tuplas de stock_cambios (o sea, un producto)}
   asegura: {res tiene como claves todos los primeros elementos de las tuplas de stock_cambios}
   asegura: {El valor en res de un producto es una tupla de cantidades. Su primer elemento es la menor cantidad de ese 
             producto en stock_cambios y como segundo valor el mayor}
 }
 """
+def minimo_stock(producto: str, stock_cambios: list[tuple[str, int]]) -> int:
+  lista_stock: list[int] = []
+  for i in range(len(stock_cambios)):
+    if producto == stock_cambios[i][0]:
+      lista_stock.append(stock_cambios[i][1])
+  minimo: int = lista_stock[0]
+  for j in range(len(lista_stock)):
+    if lista_stock[j] < minimo:
+      minimo = lista_stock[j]
+  return minimo
+
+def maximo_stock(producto: str, stock_cambios: list[tuple[str, int]]) -> int:
+  lista_stock: list[int] = []
+  for i in range(len(stock_cambios)):
+    if producto == stock_cambios[i][0]:
+      lista_stock.append(stock_cambios[i][1])
+  maximo: int = lista_stock[0]
+  for j in range(len(lista_stock)):
+    if lista_stock[j] > maximo:
+      maximo = lista_stock[j]
+  return maximo  
+
 def stock_productos(stock_cambios: list[tuple[str, int]]) -> dict[str, tuple[int, int]]:
-    return
+  res: dict[str, tuple[int, int]] = {}
+  for i in range(len(stock_cambios)):
+    stock: str = stock_cambios[i][0]
+    minimoStock = minimo_stock(stock, stock_cambios)
+    maximoStock = maximo_stock(stock, stock_cambios)    
+    tupla: tuple[int, int] = (minimoStock, maximoStock)
+    res[stock] = tupla  
+  return res
 
 """
 Ejercicio 2) Filtrar códigos de barra [2 puntos]
 
-El hijo del dueño de la veterina, cuya actividad principal es ver tik toks, cree que los productos cuyos códigos de barras terminan 
+El hijo del dueño de la veterinaria, cuya actividad principal es ver tik toks, cree que los productos cuyos códigos de barras terminan 
 en números primos son especialmente auspiciosos y deben ser destacados en la tienda. Luego de convencer a su padre de esta idea, 
 solicita una función en Python que facilite esta gestión.
 
@@ -41,8 +70,31 @@ problema filtrar_codigos_primos (in codigos_barra: seq⟨Z⟩) : seq⟨Z⟩ {
   asegura: {Todos los elementos de res están en codigos_barra }
 }
 """
+def lista_numeros(numero: int) -> list[int]:
+  lista: list[int] = []
+  indice = 1
+  while indice <= numero:
+    lista.append(indice)
+    indice+=1
+  return lista
+
+def divisores_numero(numero: int) -> list[int]:
+  lista: list[int] = lista_numeros(numero)
+  res: list[int] = []
+  for i in range(len(lista)):
+    if numero % lista[i] == 0:
+      res.append(lista[i])
+  return res
+
+def es_primo(numero: int) -> bool:
+  return divisores_numero(numero) == [1, numero]
+
 def filtrar_codigos_primos(codigos_barra: list[int]) -> list[int]:
-    return
+  lista_primos: list[int] = []
+  for i in range(len(codigos_barra)):
+    if es_primo(codigos_barra[i] % 1000):
+      lista_primos.append(codigos_barra[i])
+  return lista_primos
 
 """
 Ejercicio 3) Flujo de pacientes [2 puntos]
@@ -60,9 +112,33 @@ problema subsecuencia_mas_larga(in tipos_pacientes_atendidos: seq⟨String⟩) :
   asegura: {Si hay más de una subsecuencia de tamaño máximo, res tiene el índice de la primera)}
 }
 """
-
 def subsecuencia_mas_larga(tipos_pacientes_atendidos: list[str]) -> int:
-    return
+  cant_elementos_subsecuencia_actual: int = 0
+  cant_elementos_subsecuencia_mas_grande: int = 0
+  indice_subsecuencia_mas_grande: int = 0
+  indice_subsecuencia_actual: int = -1 #esto es válido en el parcial?
+
+  for i in range(len(tipos_pacientes_atendidos)):
+    if tipos_pacientes_atendidos[i] == "perro" or tipos_pacientes_atendidos[i] == "gato":
+      cant_elementos_subsecuencia_actual+=1
+      if indice_subsecuencia_actual == -1:
+        indice_subsecuencia_actual = i
+    else:
+      if cant_elementos_subsecuencia_actual > cant_elementos_subsecuencia_mas_grande:
+        cant_elementos_subsecuencia_mas_grande = cant_elementos_subsecuencia_actual
+        cant_elementos_subsecuencia_actual = 0
+        indice_subsecuencia_mas_grande = indice_subsecuencia_actual
+        indice_subsecuencia_actual = -1
+      else:
+        cant_elementos_subsecuencia_actual = 0
+        indice_subsecuencia_actual = -1
+
+
+  if cant_elementos_subsecuencia_actual > cant_elementos_subsecuencia_mas_grande:
+      cant_elementos_subsecuencia_mas_grande = cant_elementos_subsecuencia_actual
+      indice_subsecuencia_mas_grande = indice_subsecuencia_actual
+
+  return indice_subsecuencia_mas_grande
 
 """
 Ejercicio 4) Tabla turnos [2 puntos]
@@ -90,8 +166,26 @@ problema un_responsable_por_turno (in grilla_horaria: seq⟨seq⟨String⟩⟩: 
             grilla_horaria son iguales entre sí}
 }
 """
+def valores_iguales(lista_turnos: list[str]) -> bool:
+  elemento: str = lista_turnos[0]
+  for i in range(len(lista_turnos)):
+    if lista_turnos[i] != elemento:
+      return False
+  return True
+
 def un_responsable_por_turno(grilla_horaria: list[list[str]]) -> list[tuple[bool, bool]]:
-    return
+  res: list[tuple[bool, bool]] = []
+  for j in range(len(grilla_horaria[0])):
+    lista_dia_turno_mañana: list[str] = []
+    lista_dia_turno_tarde: list[str] = []
+    for i in range(len(grilla_horaria)):
+      if 0 <= i and i <= 3:
+        lista_dia_turno_mañana.append(grilla_horaria[i][j])
+      else:
+        lista_dia_turno_tarde.append(grilla_horaria[i][j])
+    res.append((valores_iguales(lista_dia_turno_mañana), valores_iguales(lista_dia_turno_tarde)))
+    #res.append(tupla)
+  return res
 
 """
 Ejercicio 5) Preguntas teóricas (2 puntos)
@@ -119,3 +213,9 @@ C) ¿Qué es un Control Flow Graph (CFG)? (0.5 punto)
 2) Un diagrama que muestra los diferentes caminos que puede tomar la ejecución del programa a través de sus instrucciones y decisiones.
 3) Un gráfico que representa el rendimiento del software en diferentes entornos.
 """
+
+#Ejercicio 5 A) La configuración de todas las variables en un punto específico durante la ejecución de un programa.
+#Ejercicio 5 B) Las variables globales son accesibles desde cualquier parte del programa, mientras que las variables 
+#               locales solo son accesibles dentro del bloque donde fueron definidas.
+#Ejercicio 5 C) Un diagrama que muestra los diferentes caminos que puede tomar la ejecución del programa a través de 
+#               sus instrucciones y decisiones.
