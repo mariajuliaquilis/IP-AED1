@@ -1,0 +1,629 @@
+<h1>Parcial - tema2</h1>
+<p>Nota: 8.0 / 10.0 (APROBADO)</p>
+<pre><code>puntaje ej1: 1.27
+puntaje ej2: 2
+puntaje ej3: 1.77
+puntaje ej4: 2
+puntaje ej5: 0.0
+puntaje ej6: 1
+</code></pre>
+<h2>Datos del alumno</h2>
+<p>Nombre: Maria Julia Quilis</p>
+<p>DNI: 41062606</p>
+<p>LU: 782/18</p>
+<p>Maquina: 65-04</p>
+<h2>Enunciado</h2>
+<!doctype html>
+<html>
+<head>
+  <link rel="icon" href="data:,">
+  <link href="css/style.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+
+  <style>
+    th, td {
+      border: 1px solid black;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .conditions {
+      margin-left: 20px;
+    }
+  </style>
+</head>
+
+<body style="width: 50%;margin: 1% auto;">
+
+  <div> 
+    <h1>Parcial Python - Tema 2 - Turno noche</h1>
+
+    <h2>Importante</h2>
+
+    <ul>
+      <li>El parcial se aprueba con 6 puntos</li>
+      <li>Template de funciones a implementar <a href="#" onclick="forceDownload('/parcial/Template_t1.py','Template_t1.py');">acá</a><br></li>
+      <li>Lista de funciones permitidas <a href="/static/python_permitidas.html">acá</a></li>
+      <li>Para testear el código pueden usar <a href="#" onclick="forceDownload('/parcial/tema2-test.py', 'tema2-test.py')">este</a> archivo que ya cuenta con todo lo necesario para desarrollar sus propios tests (este archivo no se entrega)</li>
+    </ul>
+
+    <p>Implementar las siguientes especificaciones en Python.</p>
+
+    <form name="form1" action="/submit_examen" method="post" enctype="multipart/form-data" onsubmit="return validaciones(event)">
+
+      <hr style="width: 100%;">
+      <h3 style="color:#1A5276">Ejercicio 1 [2 puntos]</h3>
+
+      <p>Implementar la función subsecuencias_que_suman:</p>
+
+      <p>
+        problema subsecuencias_que_suman (in <i>s</i>: seq⟨Z⟩, in <i>n</i>: Z) : seq⟨seq⟨Z⟩⟩ {<br>
+        &nbsp; <strong>requiere:</strong> { <i>n</i> es positivo}<br>
+        &nbsp; <strong>requiere:</strong> { Todos los elementos de  <i>s</i> son positivos }<br>
+        &nbsp; <strong>asegura:</strong> { <i>res</i> contiene exactamente todas las subsecuencias consecutivas de <i>s</i> cuya suma es <i>n</i> }<br>
+        &nbsp; <strong>asegura:</strong> { Las subsecuencias en <i>res</i> aparecen en el mismo orden en que ocurren en <i>s</i> }<br>
+        }<br>
+      </p>
+
+      <pre style="background-color: #f0f0f0; /* Color de fondo del recuadro */
+        padding: 2px; /* Espacio interior */
+        border: 1px solid #ccc; /* Borde del recuadro */
+        border-radius: 5px; /* Bordes redondeados */">
+    Ejemplo: subsecuencias_que_suman([1,3,2,1,5,4,8], 5) debe devolver [[3,2], [5]]
+      </pre>
+
+      <hr style="width: 100%;">
+      <h3 style="color:#1A5276">Ejercicio 2 [2 puntos]</h3>
+
+      <p>Implementar la función buscar_cliente_prioritario:</p>
+
+      <p>
+        problema buscar_cliente_prioritario (inout <i>clientes</i>: Pila⟨String x String x Z⟩) : String {<br>
+        &nbsp; <strong>requiere:</strong> { Existe al menos un elemento (nombre, medio, cant) en <i>clientes</i> tal que medio = "bitcoin" ∧ cant > 100 }<br>
+        &nbsp; <strong>modifica:</strong> { <i>clientes</i> }<br>
+        &nbsp; <strong>asegura:</strong> { <i>res</i> es el <i>nombre</i> del elemento más antiguo (en el orden de <i>clientes@pre</i>) que cumple medio = "bitcoin" ∧ cant > 100 }<br>
+        &nbsp; <strong>asegura:</strong> { <i>clientes</i> contiene exactamente los elementos de <i>clientes@pre</i> excepto ese último elemento seleccionado, preservando el orden relativo }<br>
+        }<br>
+      </p>
+
+      <pre style="background-color: #f0f0f0; /* Color de fondo del recuadro */
+        padding: 2px; /* Espacio interior */
+        border: 1px solid #ccc; /* Borde del recuadro */
+        border-radius: 5px; /* Bordes redondeados */">
+  Ejemplo: Si clientes es la siguiente pila (el elemento ("Ana","bitcoin",3) es el tope de la pila):<br>
+  ("Ana","bitcoin",3)
+  ("Beto","debito",150)
+  ("Caro","bitcoin",120)
+
+  entonces <br>
+  res = "Caro" y clientes es:
+
+  ("Ana","bitcoin",3)
+  ("Beto","debito",150)
+        </pre>
+
+      <hr style="width: 100%;">
+      <h3 style="color:#1A5276">Ejercicio 3 [2 puntos]</h3>
+
+      <p>Implementar la función eliminar_fila_que_mas_suma:</p>
+
+      <p>
+        problema eliminar_fila_que_mas_suma (in <i>A</i>: seq⟨seq⟨Z⟩⟩) : seq⟨seq⟨Z⟩⟩ {<br>
+        &nbsp; <strong>requiere:</strong> { |A| > 0}<br>
+        &nbsp; <strong>requiere:</strong> { Todos los elementos de A tienen la misma longitud, y la misma es mayor a 0}<br>
+        &nbsp; <strong>asegura:</strong> { <i>res</i> contiene todas las filas de <i>A</i> 
+          (con los mismos elementos y en el mismo orden) excepto aquellas cuya suma es la máxima entre las filas de <i>A</i> }<br>
+        }<br>
+      </p>
+
+      <pre style="background-color: #f0f0f0; /* Color de fondo del recuadro */
+padding: 2px; /* Espacio interior */
+border: 1px solid #ccc; /* Borde del recuadro */
+border-radius: 5px; /* Bordes redondeados */">
+  Ejemplo: eliminar_fila_que_mas_suma ([[1,-2,3],[8,8,8],[4,5,6],[7,8,9]]) <br/>
+  debe devolver [[1,-2,3],[4,5,6]]
+      </pre>
+
+      <hr style="width: 100%;">
+      <h3 style="color:#1A5276">Ejercicio 4 [2 puntos]</h3>
+
+      Una plataforma de streaming quiere saber cuáles son las películas favoritas. Contamos con un diccionario donde la clave representa a un cliente y el valor es el nombre de su película favorita.
+      A dicha plataforma le interesa conocer aquellas películas favoritas que fueron vistas por más de un cierto número de clientes.
+
+
+      <p>Implementar la función peliculas_mas_vistas:</p>
+
+      <p>
+        problema peliculas_mas_vistas (in <i>favoritas_por_cliente</i>: dict⟨String, String⟩, in <i>n</i>: Z) : dict⟨String, Z⟩ {<br>
+        &nbsp; <strong>requiere:</strong> { <i>favoritas_por_cliente</i> tiene al menos una película que fue elegida como favorita por al menos <i>n</i> clientes}<br>
+        &nbsp; <strong>requiere:</strong> { <i>n</i> > 0 }<br>
+        &nbsp; <strong>asegura:</strong> { Una película P está en <i>res</i> si y solo si al menos <i>n</i> clientes la eligieron como favorita. }<br>
+        &nbsp; <strong>asegura:</strong> { Para cada clave c de res, <i>res[c]</i> es la cantidad de clientes que tienen como favorita la película c. }<br>
+        }<br>
+      </p>
+
+      <pre style="background-color: #f0f0f0; /* Color de fondo del recuadro */
+    padding: 2px; /* Espacio interior */
+    border: 1px solid #ccc; /* Borde del recuadro */
+    border-radius: 5px; /* Bordes redondeados */">
+  Ejemplo: peliculas_mas_vistas({"Beto":"Endgame","Ana":"Avatar","Caro":"Endgame","Diego":"Endgame"}, 3) devuelve {"Endgame":3}
+      </pre>
+
+
+      <hr style="width: 100%;">
+
+  <h3 style="color:#1A5276">Ejercicio 5 [1 punto]</h3>
+  <p>Conteste marcando la opción correcta.</p>
+
+  <h4 style="color:#1A5276">Dado el siguiente código en Python, considere cobertura de ramas vs. cobertura de condiciones básicas:</h4>
+
+  <pre style="background-color: #f0f0f0; padding: 2px; border: 1px solid #ccc; border-radius: 5px;">
+  def f(i:int, j:int) -> int:
+    if i > 0 or j % 2 == 0:
+        return 1
+    return 2
+  </pre>
+
+  <p>Cada caso de prueba se indica como (i, j). ¿Cuál conjunto logra 100% de cobertura de condiciones básicas pero NO 100% de cobertura de ramas?</p>
+
+  <p>
+    <input type="radio" name="mchoice_1" id="Bopcion1" value="1" />
+    <label for="Bopcion1">Casos de prueba: (1,2), (-1,2), (0,1)</label> <br>
+    <input type="radio" name="mchoice_1" id="Bopcion2" value="2" />
+    <label for="Bopcion2">Casos de prueba: (1,2), (-1,2), (3,1)</label> <br>
+    <input type="radio" name="mchoice_1" id="Bopcion3" value="3" />
+    <label for="Bopcion3">Casos de prueba: (1,2), (-1,2), (0,12)</label> <br>
+  </p>
+
+  <hr style="width: 100%;">
+  <h3 style="color:#1A5276">Ejercicio 6 [1 punto]</h3>
+
+  <p>Conteste marcando la opción correcta.</p>
+
+  <h4 style="color:#1A5276">Si un algoritmo recorre una lista de longitud n una única vez y realiza exactamente 3 operaciones por elemento, para un input particular:</h4>
+
+  <p>
+    <input type="radio" name="mchoice_2" id="Aopcion1" value="1" />
+    <label for="Aopcion1">La cantidad de operaciones es independiente de n</label> <br>
+    <input type="radio" name="mchoice_2" id="Aopcion2" value="2" />
+    <label for="Aopcion2">La cantidad de operaciones será <i>n</i></label> <br>
+    <input type="radio" name="mchoice_2" id="Aopcion3" value="3" />
+    <label for="Aopcion3">La cantidad de operaciones será <i>3*n</i></label> <br>
+  </p>
+
+      <hr style="width: 100%;">
+      <h3 style="color:#1A5276">Adjunta el archivo con tu solución:</h3>
+      <p><b style="color:red">Solo se puede adjuntar 1 archivo de extensión .py. En caso de haber desarrollado tests propios, no deben ser entregados.</b></p>
+
+      <label for="archivo">Seleccionar archivo a enviar:</label>
+      <input type="file" id="archivo" name="archivo" required accept=".py,text/x-python" />
+
+      <input type="submit" value="Enviar" style="background-color: #1A5276; border-radius: 5px;
+                margin-top:10px;padding: 10px 150px;color: #FFFFFF;
+                font-size: 20px;cursor: pointer; width:100%">
+
+    </form>
+  </div>
+
+  <script>
+    function validaciones(event) {
+      // Obtiene todos los inputs tipo radio del formulario
+      const radioGroups = document.querySelectorAll('input[type="radio"]');
+      const groupedByName = {};
+
+      // Agrupar radios por su atributo name
+      radioGroups.forEach(radio => {
+        if (!groupedByName[radio.name]) {
+          groupedByName[radio.name] = [];
+        }
+        groupedByName[radio.name].push(radio);
+      });
+
+      // Verificar que cada grupo de radios tenga al menos uno seleccionado
+      for (const groupName in groupedByName) {
+        const radios = groupedByName[groupName];
+        const isChecked = radios.some(radio => radio.checked);
+
+        if (!isChecked) {
+          alert(`Debes seleccionar una opción para la pregunta ${groupName}`);
+          return false; // Detener la validación si falta alguna opción
+        }
+      }
+
+      var confirmacion = confirm("Confirmo que revisé mis respuestas y que quiero entregar mi examen");
+      if (!confirmacion) {
+        event.preventDefault();
+        event.returnValue = false;
+        return false;
+      }
+      event.returnValue = true;
+      return true;
+    }
+
+    // registro una funcion para mostrar el archivo cuando se adjunta.
+    // de esa forma evitamos que se adjunten otros archivos por error
+    document
+      .getElementById('archivo')
+      .addEventListener(
+        'change',
+        function () {
+          var fr = new FileReader();
+          fr.onload = function () {
+            alert(this.result);
+          };
+          fr.readAsText(this.files[0]);
+        }
+      );
+
+    // para forzar a bajar el template de pytest y que no se pueda abrir en un nuevo tab
+    // (el browser intenta mostrar el codigo como HTML y el formato se ve raro)
+    function forceDownload(url, filename) {
+      fetch(url).then(function(t) {
+        return t.blob().then((b) => {
+          var a = document.createElement("a");
+          a.href = URL.createObjectURL(b);
+          a.setAttribute("download", filename);
+          a.click();
+        });
+      });
+    }
+  </script>
+</body>
+</html>
+
+<h2>Solucion entregada por el alumno</h2>
+<pre><code>from queue import LifoQueue as Pila
+
+&quot;&quot;&quot;
+Ejercicio 1 [2 puntos]
+
+Implementar la función subsecuencias_que_suman:
+
+problema subsecuencias_que_suman (in s: seq⟨Z⟩, in n: Z) : seq⟨seq⟨Z⟩⟩ {
+  requiere: { n es positivo}
+  requiere: { Todos los elementos de s son positivos }
+  asegura: { res contiene exactamente todas las subsecuencias consecutivas de s cuya suma es n }
+  asegura: { Las subsecuencias en res aparecen en el mismo orden en que ocurren en s }
+}
+
+  Ejemplo: subsecuencias_que_suman([1,3,2,1,5,4,8], 5) debe devolver [[3,2], [5]]
+
+&quot;&quot;&quot;
+def subsecuencias_que_suman(s: list[int], n: int) -&gt; list[list[int]]:
+    res: list[list[int]] = []
+    subsecuencia_actual: list[int] = []
+    suma_actual: int = 0
+    guardo_indice: int = 0
+
+    for i in range(len(s)):
+        subsecuencia_actual.append(s[i])
+        suma_actual+= s[i]
+
+        if suma_actual &gt;= n:
+            if suma_actual == n:
+                res.append(subsecuencia_actual)
+                subsecuencia_actual = [] 
+                suma_actual = 0
+                i = guardo_indice+1
+            else:
+                subsecuencia_actual = []
+                suma_actual = 0
+                i = guardo_indice+1
+    return res
+&quot;&quot;&quot;
+Ejercicio 2 [2 puntos]
+
+Implementar la función buscar_cliente_prioritario:
+
+problema buscar_cliente_prioritario (inout clientes: Pila⟨String x String x Z⟩) : String {
+  requiere: { Existe al menos un elemento (nombre, medio, cant) en clientes tal que medio = &quot;bitcoin&quot; ∧ cant &gt; 100 }
+  modifica: { clientes }
+  asegura: { res es el nombre del elemento más antiguo (en el orden de clientes@pre) que cumple medio = &quot;bitcoin&quot; ∧ cant &gt; 100 }
+  asegura: { clientes contiene exactamente los elementos de clientes@pre excepto ese último elemento seleccionado, preservando el orden relativo }
+}
+
+  Ejemplo: Si clientes es la siguiente pila (el elemento (&quot;Ana&quot;,&quot;bitcoin&quot;,3) es el tope de la pila):
+
+  (&quot;Ana&quot;,&quot;bitcoin&quot;,3)
+  (&quot;Beto&quot;,&quot;debito&quot;,150)
+  (&quot;Caro&quot;,&quot;bitcoin&quot;,120)
+
+  entonces 
+
+  res = &quot;Caro&quot; y clientes es:
+
+  (&quot;Ana&quot;,&quot;bitcoin&quot;,3)
+  (&quot;Beto&quot;,&quot;debito&quot;,150)        
+&quot;&quot;&quot;
+
+def buscar_cliente_prioritario (clientes: Pila[tuple[str, str, int]]) -&gt; str:
+    res: str = &quot;&quot;
+    pila_auxiliar: Pila[tuple[str, str, int]] = Pila()
+
+    #invierto la pila
+    while not clientes.empty():
+        elemento: tuple[str, str, int] = clientes.get()
+        pila_auxiliar.put(elemento)    
+
+    while not pila_auxiliar.empty():
+        otro_elemento: tuple[str, str, int] = pila_auxiliar.get()
+        if (otro_elemento[1] == &quot;bitcoin&quot; and otro_elemento[2] &gt; 100) and res == &quot;&quot;:
+            res = otro_elemento[0]
+        else:
+            clientes.put(otro_elemento)
+    return res
+
+&quot;&quot;&quot;
+Ejercicio 3 [2 puntos]
+
+Implementar la función eliminar_fila_que_mas_suma:
+
+problema eliminar_fila_que_mas_suma (in A: seq⟨seq⟨Z⟩⟩) : seq⟨seq⟨Z⟩⟩ {
+  requiere: { |A| &gt; 0}
+  requiere: { Todos los elementos de A tienen la misma longitud, y la misma es mayor a 0}
+  asegura: { res contiene todas las filas de A (con los mismos elementos y en el mismo orden) excepto aquellas cuya suma es la máxima entre las filas de A }
+}
+
+  Ejemplo: eliminar_fila_que_mas_suma ([[1,-2,3],[8,8,8],[4,5,6],[7,8,9]]) 
+
+  debe devolver [[1,-2,3],[4,5,6]]
+
+&quot;&quot;&quot;
+def suma_filas(fila: list[int]) -&gt; int:
+    res: int = 0
+    for i in range(len(fila)):
+        res+=fila[i]
+    return res
+
+def lista_sumas_filas(mat: list[list[int]]) -&gt; list[int]:
+    res: list[int] = []
+    for i in range(len(mat)):
+        suma: int = suma_filas(mat[i])
+        res.append(suma)
+    return res
+
+def maximo(lista: list[int]) -&gt; int:
+    numero_mas_grande: int = 0
+    numero_actual: int = 0
+    for i in range(len(lista)):
+        numero_actual: int = lista[i]
+        if numero_actual &gt; numero_mas_grande:
+            numero_mas_grande = numero_actual
+    return numero_mas_grande
+
+def eliminar_fila_que_mas_suma(A: list[list[int]]) -&gt; list[list[int]]:    
+    res: list[list[int]] = []
+    for i in range(len(A)):
+        suma_actual: int = suma_filas(A[i])
+        if suma_actual &lt; maximo(lista_sumas_filas(A)):
+            res.append(A[i])               
+    return res
+
+&quot;&quot;&quot;
+Ejercicio 4 [2 puntos]
+Una plataforma de streaming quiere saber cuáles son las películas favoritas. Contamos con un diccionario donde la clave representa a un cliente y el 
+valor es el nombre de su película favorita. 
+A dicha plataforma le interesa conocer aquellas películas favoritas que fueron vistas por más de un cierto número de clientes.
+
+Implementar la función peliculas_mas_vistas:
+
+problema peliculas_mas_vistas (in favoritas_por_cliente: dict⟨String, String⟩, in n: Z) : dict⟨String, Z⟩ {
+  requiere: { favoritas_por_cliente tiene al menos una película que fue elegida como favorita por al menos n clientes}
+  requiere: { n &gt; 0 }
+  asegura: { Una película P está en res si y solo si al menos n clientes la eligieron como favorita.}
+  asegura: { Para cada clave c de res, res[c] es la cantidad de clientes que tienen como favorita la película c.}
+}
+
+  Ejemplo: peliculas_mas_vistas({&quot;Beto&quot;:&quot;Endgame&quot;,&quot;Ana&quot;:&quot;Avatar&quot;,&quot;Caro&quot;:&quot;Endgame&quot;,&quot;Diego&quot;:&quot;Endgame&quot;}, 3) devuelve {&quot;Endgame&quot;:3}
+
+&quot;&quot;&quot;
+def pertenece(lista: list[str], elemento: str) -&gt; bool:
+    for i in range(len(lista)):
+        if lista[i] == elemento:
+            return True
+    return False
+
+def cuantas_veces_vieron_la_pelicula(peli: str, peliculas: list[str]) -&gt; int:
+    cantidad: int = 0
+    for i in range(len(peliculas)):
+        if peliculas[i] == peli:
+            cantidad+=1
+    return cantidad
+
+def lista_pelis(diccionario: dict[str, str]) -&gt; list[str]:
+    res: list[str] = []
+    for pelicula in diccionario.values():
+        res.append(pelicula)
+    return res
+
+def peliculas_mas_vistas(favoritas_por_cliente: dict[str, str], n: int) -&gt; dict[str, int]:
+    res: dict[str, int] = {}
+    lista_peliculas: list[str] = []
+    for pelicula in favoritas_por_cliente.values():
+        if not pertenece(lista_peliculas, pelicula) and cuantas_veces_vieron_la_pelicula(pelicula, lista_pelis(favoritas_por_cliente)) &gt;= n:
+            res[pelicula] = cuantas_veces_vieron_la_pelicula(pelicula, lista_pelis(favoritas_por_cliente))
+    return res
+</code></pre>
+<h2>Resultado de la compilacion</h2>
+<pre><code>
+</code></pre>
+<h2>Ejecucion de los tests</h2>
+<h3>tema2-test-ej1.py.compilacion.out</h3>
+<p>Puntaje del ej: 1.27 / 2</p>
+<pre><code>test_el_mezcladito (__main__.Ej1Test.test_el_mezcladito) ... FAIL
+test_largo_no_suma (__main__.Ej1Test.test_largo_no_suma) ... ok
+test_repetidos (__main__.Ej1Test.test_repetidos) ... FAIL
+test_solo_repetidos (__main__.Ej1Test.test_solo_repetidos) ... FAIL
+test_solo_repetidos_sin_sumar (__main__.Ej1Test.test_solo_repetidos_sin_sumar) ... ok
+test_un_elemento_no_alcanza (__main__.Ej1Test.test_un_elemento_no_alcanza) ... ok
+test_un_elemento_se_pasa (__main__.Ej1Test.test_un_elemento_se_pasa) ... ok
+test_un_elemento_suma (__main__.Ej1Test.test_un_elemento_suma) ... ok
+test_una_sola_al_final (__main__.Ej1Test.test_una_sola_al_final) ... FAIL
+test_una_sola_al_principio (__main__.Ej1Test.test_una_sola_al_principio) ... ok
+test_vacia (__main__.Ej1Test.test_vacia) ... ok
+
+======================================================================
+FAIL: test_el_mezcladito (__main__.Ej1Test.test_el_mezcladito)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File &quot;./correcciones/parcial_tn_imperativo/quilis_maria_julia_41062606/tema2-test-ej1.py&quot;, line 93, in test_el_mezcladito
+    self.assertEqual(res, [[12, 2], [2, 1, 3, 4, 4], [4, 4, 6], [6, 8], [8, 1, 2, 3], [14]])
+AssertionError: Lists differ: [[12, 2], [2, 1, 3, 4, 4], [6, 8]] != [[12, 2], [2, 1, 3, 4, 4], [4, 4, 6], [6, 8], [8, 1, 2, 3], [14]]
+
+First differing element 2:
+[6, 8]
+[4, 4, 6]
+
+Second list contains 3 additional elements.
+First extra element 3:
+[6, 8]
+
+- [[12, 2], [2, 1, 3, 4, 4], [6, 8]]
++ [[12, 2], [2, 1, 3, 4, 4], [4, 4, 6], [6, 8], [8, 1, 2, 3], [14]]
+
+======================================================================
+FAIL: test_repetidos (__main__.Ej1Test.test_repetidos)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File &quot;./correcciones/parcial_tn_imperativo/quilis_maria_julia_41062606/tema2-test-ej1.py&quot;, line 80, in test_repetidos
+    self.assertEqual(res, [[12, 2], [2, 12], [12, 2]])
+AssertionError: Lists differ: [[12, 2], [12, 2]] != [[12, 2], [2, 12], [12, 2]]
+
+First differing element 1:
+[12, 2]
+[2, 12]
+
+Second list contains 1 additional elements.
+First extra element 2:
+[12, 2]
+
+- [[12, 2], [12, 2]]
++ [[12, 2], [2, 12], [12, 2]]
+?          +++++++++
+
+
+======================================================================
+FAIL: test_solo_repetidos (__main__.Ej1Test.test_solo_repetidos)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File &quot;./correcciones/parcial_tn_imperativo/quilis_maria_julia_41062606/tema2-test-ej1.py&quot;, line 73, in test_solo_repetidos
+    self.assertEqual(res, [[2, 2], [2, 2], [2, 2]])
+AssertionError: Lists differ: [[2, 2], [2, 2]] != [[2, 2], [2, 2], [2, 2]]
+
+Second list contains 1 additional elements.
+First extra element 2:
+[2, 2]
+
+- [[2, 2], [2, 2]]
++ [[2, 2], [2, 2], [2, 2]]
+?              ++++++++
+
+
+======================================================================
+FAIL: test_una_sola_al_final (__main__.Ej1Test.test_una_sola_al_final)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File &quot;./correcciones/parcial_tn_imperativo/quilis_maria_julia_41062606/tema2-test-ej1.py&quot;, line 59, in test_una_sola_al_final
+    self.assertEqual(res, [[3, 14, 5]])
+AssertionError: Lists differ: [] != [[3, 14, 5]]
+
+Second list contains 1 additional elements.
+First extra element 0:
+[3, 14, 5]
+
+- []
++ [[3, 14, 5]]
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.012s
+
+FAILED (failures=4)
+
+</code></pre>
+<h3>tema2-test-ej2.py.compilacion.out</h3>
+<p>Puntaje del ej: 2 / 2</p>
+<pre><code>test_prioritario_al_final (__main__.Ej1Test.test_prioritario_al_final) ... ok
+test_prioritario_al_prinfipio (__main__.Ej1Test.test_prioritario_al_prinfipio) ... ok
+test_prioritario_en_el_medio (__main__.Ej1Test.test_prioritario_en_el_medio) ... ok
+test_un_elem (__main__.Ej1Test.test_un_elem) ... ok
+test_varios_candidatos (__main__.Ej1Test.test_varios_candidatos) ... ok
+test_varios_candidatos_justo (__main__.Ej1Test.test_varios_candidatos_justo) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.007s
+
+OK
+
+</code></pre>
+<h3>tema2-test-ej3.py.compilacion.out</h3>
+<p>Puntaje del ej: 1.77 / 2</p>
+<pre><code>test_ceros (__main__.Ej1Test.test_ceros) ... ok
+test_mas_de_una (__main__.Ej1Test.test_mas_de_una) ... ok
+test_mas_suma_al_final (__main__.Ej1Test.test_mas_suma_al_final) ... ok
+test_mas_suma_al_principio (__main__.Ej1Test.test_mas_suma_al_principio) ... ok
+test_mas_suma_en_el_medio (__main__.Ej1Test.test_mas_suma_en_el_medio) ... ok
+test_negativos (__main__.Ej1Test.test_negativos) ... FAIL
+test_todas (__main__.Ej1Test.test_todas) ... ok
+test_una_columna (__main__.Ej1Test.test_una_columna) ... ok
+test_una_fila (__main__.Ej1Test.test_una_fila) ... ok
+
+======================================================================
+FAIL: test_negativos (__main__.Ej1Test.test_negativos)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File &quot;./correcciones/parcial_tn_imperativo/quilis_maria_julia_41062606/tema2-test-ej3.py&quot;, line 93, in test_negativos
+    self.assertEqual(res, salida_esperada)
+AssertionError: Lists differ: [[-10, -2, -3], [-10, -1, -20], [-10, -2, -1]] != [[-10, -2, -3], [-10, -1, -20]]
+
+First list contains 1 additional elements.
+First extra element 2:
+[-10, -2, -1]
+
+- [[-10, -2, -3], [-10, -1, -20], [-10, -2, -1]]
+?                               -------------- -
+
++ [[-10, -2, -3], [-10, -1, -20]]
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.007s
+
+FAILED (failures=1)
+
+</code></pre>
+<h3>tema2-test-ej4.py.compilacion.out</h3>
+<p>Puntaje del ej: 2 / 2</p>
+<pre><code>test_al_menos_una_favorita (__main__.Ej1Test.test_al_menos_una_favorita) ... ok
+test_minimo_umbral (__main__.Ej1Test.test_minimo_umbral) ... ok
+test_todas_favoritas (__main__.Ej1Test.test_todas_favoritas) ... ok
+test_todos_prefieren_misma_pelicula (__main__.Ej1Test.test_todos_prefieren_misma_pelicula) ... ok
+test_un_solo_cliente (__main__.Ej1Test.test_un_solo_cliente) ... ok
+test_una_sola_cumple_varias_quedan_fuera (__main__.Ej1Test.test_una_sola_cumple_varias_quedan_fuera) ... ok
+test_varias_peliculas_cumplen (__main__.Ej1Test.test_varias_peliculas_cumplen) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.006s
+
+OK
+
+</code></pre>
+<h3>mchoice.json-ej5.compilacion.out</h3>
+<p>Puntaje del ej: 0.0 / 1</p>
+<pre><code>mchoice ej5: respuesta del alumno=1, respuesta correcta=2
+
+Ran 1 test in 0 seconds
+
+FAILED (failures=1)
+
+</code></pre>
+<h3>mchoice.json-ej6.compilacion.out</h3>
+<p>Puntaje del ej: 1 / 1</p>
+<pre><code>mchoice ej6: respuesta del alumno=3, respuesta correcta=3
+
+Ran 1 test in 0 seconds
+
+OK
+
+</code></pre>
+<p>FIN</p>
