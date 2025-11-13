@@ -1,5 +1,5 @@
 import Test.HUnit
-import Solucion
+import Parcial
 
 main = runTestTT tests
 
