@@ -1,0 +1,225 @@
+<html>
+
+<head>
+  <link rel="icon" href="data:,">
+  <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+<div>
+
+<h1> Simulacro Funcional - Parcial TM 1c2025 - Tema 1 </h1>
+
+<p>
+
+<h2> Importante </h2>
+Template de funciones a implementar <a href="#" onclick="forceDownload('/parcial/Template_t1.hs','SolucionT1.hs');">acá</a><br>
+Lista de funciones permitidas <a href="/static/haskell_permitidas.html" target="_blank" rel="noopener noreferrer">acá</a><br>
+Ejemplo de hunit <a href="#" onclick="forceDownload('/parcial/Test_template_t1.hs','Test_template_t1.hs');">acá</a>
+
+<p>
+
+<form name="form1" action="/submit_examen" method="post" enctype="multipart/form-data" onsubmit="return validaciones(event)">
+
+<h2> Enunciado </h2>
+
+<ol>
+ <p>
+  Resolver los siguientes ejercicios cuyas especificaciones en lenguaje
+  semiformal figuran a continuación. Deben ser implementadas en Haskell utilizando los tipos
+  requeridos y solamente las funciones que se ven en la materia Introducción a la Programación / Algoritmos y Estructuras de Datos I (FCEyN-UBA).
+</p>
+
+<li> <strong>Ejercicio 1 (2,5 puntos)</strong></li>
+
+  <p>Se dice que n es un número abundante si la suma de sus divisores propios es mayor que n. Los divisores propios de un número son todos los divisores sin contar al número mismo. Por ejemplo, los divisores propios de 12 son 1, 2, 3, 4 y 6. La suma de los divisores propios de 12 es 1 + 2 + 3 + 4 + 6 = 16, que es mayor que 12. Por lo tanto, 12 es un número abundante.</p>
+  </p>
+  <p>Se pide implementar cantidadNumerosAbundantes:</p>
+  </p>
+
+  <p>problema cantidadNumerosAbundantes (<i>d</i>: Z,<i>h</i>: Z) : Z {<br>
+    &nbsp; <strong>requiere:</strong> {0 < d  ≤ h} <br>
+    &nbsp; <strong>asegura:</strong> {<i>res</i> es la cantidad de números abundantes en el rango [d..h]} <br>
+    }<br>
+  
+  <pre style="background-color: #f0f0f0; /* Color de fondo del recuadro */
+  padding: 2px; /* Espacio interior */
+  border: 1px solid #ccc; /* Borde del recuadro */
+  border-radius: 5px; /* Bordes redondeados */">
+  Ejemplo: <b>cantidadNumerosAbundantes 12 24</b> debe devolver <b>4</b>
+  </pre>
+
+  <li> <strong>Ejercicio 2 (2 puntos)</strong></li>
+  Representaremos una <i>cursada aprobada</i> con una tupla String x Z x Z, donde:
+  <ul>
+    <li>La primera componente de la tupla contiene el nombre de una materia</li>
+    <li>La segunda componente de la tupla contiene el año de aprobación de la cursada</li>
+    <li>La tercera componente de la tupla contiene el cuatrimestre de aprobación de la cursada (el valor 0 representa un curso de verano)</li>
+  </ul>
+  Se pide implementar cursadasVencidas, que dada una lista de cursadas devuelva aquellas materias cuya aprobación de la cursada ya venció, y por lo tanto ya no se puede rendir el final
+
+  <p>problema cursadasVencidas (<i>s</i>: seq⟨String x Z x Z⟩) :seq⟨String⟩ {<br>
+    &nbsp; <strong>requiere:</strong> { s[i]<sub>1</sub> ≥ 1993 para todo i tal que 0 ≤ i < |s|} <br>
+    &nbsp; <strong>requiere:</strong> { 0 ≤ s[i]<sub>2</sub> ≤ 2 para todo i tal que 0 ≤ i < |s|} <br>
+    &nbsp; <strong>asegura:</strong> { <i>res</i> no tiene elementos repetidos} <br>
+    &nbsp; <strong>asegura:</strong> { <i>res</i> contiene los nombres de todas las materias incluídas en <i>s</i> tales que la materia fue aprobada a más tardar en el primer cuatrimestre de 2021, inclusive} <br>
+    &nbsp; <strong>asegura:</strong> { <i>res</i> contiene solamente los nombres de las materias incluídas en <i>s</i> tales que la materia fue aprobada a más tardar en el primer cuatrimestre de 2021, inclusive} <br>
+    }<br>
+
+    <pre style="background-color: #f0f0f0; /* Color de fondo del recuadro */
+    padding: 2px; /* Espacio interior */
+    border: 1px solid #ccc; /* Borde del recuadro */
+    border-radius: 5px; /* Bordes redondeados */">
+    Ejemplo: <b>cursadasVencidas [("Algoritmos y Estructuras de Datos I", 2020, 2), ("Algoritmos y Estructuras de Datos II", 2022, 1)]</b> debe devolver <b>["Algoritmos y Estructuras de Datos I"]</b>
+    </pre>
+
+<li> <strong>Ejercicio 3 (2 puntos)</strong></li>
+  <p>problema saturarEnUmbralHastaNegativo (<i>s</i>: seq⟨Z⟩, <i>u</i>: Z) : seq⟨Z⟩ {<br>
+    &nbsp; <strong>requiere:</strong> {<i>u</i> > 0} <br>
+    &nbsp; <strong>asegura:</strong> { La longitud de <i>res</i> es igual a la cantidad de elementos no negativos consecutivos desde el inicio de <i>s</i> } <br>
+    &nbsp; <strong>asegura:</strong> {Para cualquier <i>i</i> en el rango 0 ≤ <i>i</i> < |<i>res</i>| tal que 0 ≤ <i>s[i]</i> ≤ <i>u</i>, se cumple que <i>res[i]</i> = <i>s[i]</i>} <br>
+    &nbsp; <strong>asegura:</strong> {Para cualquier <i>i</i> en el rango 0 ≤ <i>i</i> < |<i>res</i>| tal que <i>s[i]</i> > <i>u</i>, se cumple que <i>res[i]</i> = <i>u</i>} <br>
+  }<br>
+
+    <pre style="background-color: #f0f0f0; /* Color de fondo del recuadro */
+    padding: 2px; /* Espacio interior */
+    border: 1px solid #ccc; /* Borde del recuadro */
+    border-radius: 5px; /* Bordes redondeados */">
+    Ejemplo: <b>saturarEnUmbralHastaNegativo [3,8,5,0,7,-2,4] 5</b> debe devolver <b>[3,5,5,0,5]</b>
+    </pre>
+
+
+  <li> <strong>Ejercicio 4 (2 puntos)</strong></li>
+  <p>problema cantidadParesColumna (<i>matriz</i>: seq⟨seq⟨Z⟩⟩, <i>col</i>: Z) : Z{<br>
+    &nbsp; <strong>requiere:</strong> {Todos los elementos de la secuencia <i>matriz</i> tienen la misma longitud}<br>
+    &nbsp; <strong>requiere:</strong> {|<i>matriz</i>| > 0}<br>
+    &nbsp; <strong>requiere:</strong> {|<i>matriz</i>[0]| > 0}<br>
+    &nbsp; <strong>requiere:</strong> {1 ≤ col ≤ |<i>matriz</i>[0]| }<br>
+    &nbsp; <strong>asegura:</strong> {<i>res</i> es la cantidad de números pares de los elementos <i>matriz</i>[i][col-1] para todo <i>i</i> tal que 0 ≤ i < |matriz| } <br>
+  }<br>
+  </p>
+
+  <pre style="background-color: #f0f0f0; /* Color de fondo del recuadro */
+  padding: 2px; /* Espacio interior */
+  border: 1px solid #ccc; /* Borde del recuadro */
+  border-radius: 5px; /* Bordes redondeados */">
+  Ejemplo: <b>cantidadParesColumna [[-9,8,2,3],[2,7,-5,3],[-1,0,5,6]] 2</b> debe devolver <b>2</b>
+  </pre>
+
+  <li> <strong>Ejercicio 5 (0,75 puntos)</strong></li>
+  <p>
+    Conteste marcando la opción correcta.<br>
+    ¿Qué ocurre si una definición por pattern matching no contempla todos los casos posibles?
+  <br>
+
+  <input type="radio" name="mchoice_1" id="mchoice_1_opcion1" value="1" />
+      <label for="mchoice_1_opcion1">El programa no compila.</label> <br>
+  <input type="radio" name="mchoice_1" id="mchoice_1_opcion2" value="2" />
+      <label for="mchoice_1_opcion2">Haskell elige un valor por defecto automáticamente.</label> <br>
+  <input type="radio" name="mchoice_1" id="mchoice_1_opcion3" value="3" />
+      <label for="mchoice_1_opcion3">El programa puede lanzar un error en tiempo de ejecución si se invoca con un patrón no contemplado.</label> <br>
+  </p>
+
+
+  <li> <strong>Ejercicio 6 (0,75 puntos)</strong></li>
+  <p>
+    Conteste marcando la opción correcta.<br>
+  Dado un problema con parámetros <i>c</i> (de tipo Char) y <i>s</i> (de tipo String), cuya única precondición es <i>(esVocal(c) ∨ longitud(s) > 3)</i>:
+  <br>
+
+  <input type="radio" name="mchoice_2" id="mchoice_2_opcion1" value="1" />
+      <label for="mchoice_2_opcion1">La precondición garantiza que siempre se trabajará con strings no vacíos.</label> <br>
+  <input type="radio" name="mchoice_2" id="mchoice_2_opcion2" value="2" />
+      <label for="mchoice_2_opcion2">Si <i>c</i> es una consonante y <i>s</i> tiene longitud igual a 2, no se garantiza el comportamiento correcto del programa.</label> <br>
+  <input type="radio" name="mchoice_2" id="mchoice_2_opcion3" value="3" />
+      <label for="mchoice_2_opcion3">Cualquier combinación de valores de <i>c</i> y <i>s</i> es válida, porque la precondición es una disyunción en vez de una conjunción.</label> <br>
+  </p>
+
+</ol>
+
+<hr>
+  <h3 style="color:#1A5276">Adjunta el archivo con tu solución:</h3>
+  <p><b style="color:red">Solo se puede adjuntar 1 archivo de extensión .hs. En caso de haber desarrollado tests propios, no deben ser entregados.</b></p>
+
+  <label for="archivo">Seleccionar archivo a enviar:</label>
+  <input type="file" id="archivo" name="archivo" required accept=".hs,text/x-haskell"/>
+
+  <input type="submit" value="Enviar"
+        style= "background-color: #1A5276; border-radius: 5px;
+                margin-top:10px;padding: 10px 150px;color: #FFFFFF;
+                font-size: 20px;cursor: pointer; width:100%" >
+
+</form>
+
+</div>
+
+<script>
+  function validaciones(event) {
+	// Obtiene todos los inputs tipo radio del formulario
+    const radioGroups = document.querySelectorAll('input[type="radio"]');
+    const groupedByName = {};
+
+    // Agrupar radios por su atributo name
+    radioGroups.forEach(radio => {
+      if (!groupedByName[radio.name]) {
+        groupedByName[radio.name] = [];
+      }
+      groupedByName[radio.name].push(radio);
+    });
+
+    // Verificar que cada grupo de radios tenga al menos uno seleccionado
+    for (const groupName in groupedByName) {
+      const radios = groupedByName[groupName];
+      const isChecked = radios.some(radio => radio.checked);
+
+      if (!isChecked) {
+        alert(`Debes seleccionar una opción para la pregunta ${groupName}`);
+        return false; // Detener la validación si falta alguna opción
+      }
+    }
+  
+    var confirmacion = confirm("Confirmo que revise mis respuestas y que quiero entregar mi examen");
+    if (!confirmacion) {
+        event.preventDefault();
+        event.returnValue = false;
+        return false;
+      }
+      event.returnValue = true;
+      return true;
+  }
+</script>
+
+<script>
+// registro una funcion para mostrar el archivo cuando se adjunta.
+// de esa forma evitamos que se adjunten otros archivos por error
+document
+  .getElementById('archivo')
+  .addEventListener(
+      'change',
+      function () {
+          var fr = new FileReader();
+          fr.onload = function () {
+              alert(this.result);
+          };
+          fr.readAsText(this.files[0]);
+      }
+  );
+
+// para forzar a bajar el template de hunit y que no se pueda abrir en un nuevo tab
+// (el browser intenta mostrar el codigo como HTML y el formato se ve raro)
+function forceDownload(url, filename) {
+  fetch(url).then(function(t) {
+    return t.blob().then((b) => {
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(b);
+      a.setAttribute("download", filename);
+      a.click();
+    });
+  });
+}
+</script>
+
+</body>
+
+</html>
