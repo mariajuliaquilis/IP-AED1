@@ -1,4 +1,5 @@
-{-Sistema de stock
+{-
+Sistema de stock
 Una reconocida empresa de comercio electrónico nos pide desarrollar un sistema de stock de mercadería. La mercadería de
 la empresa va a ser representada como una secuencia de nombres de los productos, donde puede haber productos repetidos.
 El stock va a ser representado como una secuencia de tuplas de dos elementos, donde el primero es el nombre del producto y
@@ -178,3 +179,19 @@ problema listaDeAmigos (lista: seq⟨Z⟩) : seq⟨Z × Z⟩ {
     asegura: {|res| es igual a la cantidad de pares de números amigos que hay en lista.}
 }
 -}
+perteneceElAmigo :: [Int] -> Int -> Bool
+perteneceElAmigo lista numero | longitud(lista) == 0 = False
+                              | otherwise = sonAmigos (head lista) numero || perteneceElAmigo (tail lista) numero  
+
+encuentroAlAmigo :: [Int] -> Int -> Int
+encuentroAlAmigo lista numero | sonAmigos (head lista) numero = head lista
+                              | otherwise = encuentroAlAmigo (tail lista) numero
+
+numerosAmigos :: [Int] -> [Int] -> [(Int, Int)]
+numerosAmigos lista guardoElementos | longitud(lista) == 0 = []
+                                    | not(perteneceElAmigo lista (head lista)) = numerosAmigos (tail lista) (guardoElementos)
+                                    | otherwise = ((head lista), encuentroAlAmigo lista (head lista)):numerosAmigos (tail lista) (primerElemento:segundoElemento:guardoElementos)
+                                    where primerElemento = (head lista)
+                                          segundoElemento = (encuentroAlAmigo lista (head lista))
+listaDeAmigos :: [Int] -> [(Int, Int)]
+listaDeAmigos lista = numerosAmigos lista []
