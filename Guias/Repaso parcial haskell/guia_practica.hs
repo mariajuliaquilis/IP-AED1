@@ -21,28 +21,24 @@ problema generarStock (mercadería: seq⟨String⟩) : seq⟨String ×Z⟩ {
 -}
 longitud :: (Eq t) => [t] -> Int
 longitud lista | lista == [] = 0
-               | otherwise = 1 + longitud(tail lista) 
+               | otherwise = 1 + longitud(tail lista)
 
-cantidadProductos :: [String] -> String -> Int
-cantidadProductos mercaderia producto | longitud(mercaderia) == 0 = 0
-                                      | head(mercaderia) == producto = 1 + cantidadProductos (tail mercaderia) producto
-                                      | otherwise = cantidadProductos (tail mercaderia) producto  
+cantApariciones :: [String] -> String -> Int
+cantApariciones productos producto | longitud(productos) == 0 = 0
+                                   | (head productos) == producto = 1 + cantApariciones (tail productos) producto
+                                   | otherwise = cantApariciones (tail productos) producto
 
 pertenece :: (Eq t) => [t] -> t -> Bool
 pertenece lista elemento | longitud(lista) == 0 = False
-                         | otherwise = (head lista == elemento) || pertenece (tail lista) elemento
+                         | otherwise = (head lista) == elemento || pertenece (tail lista) elemento
 
-generoElStock :: [String] -> [(String, Int)]
-generoElStock mercaderia | longitud(mercaderia) == 0 = []
-                         | otherwise = ((head mercaderia), cantidadProductos mercaderia (head mercaderia)):generoElStock (tail mercaderia) 
-
-eliminoDuplicados :: [(String, Int)] -> [String] -> [(String, Int)]
-eliminoDuplicados stock lista | longitud(stock) == 0 = stock
-                              | not(pertenece lista (fst(head stock))) = (head stock):eliminoDuplicados (tail stock) ((fst(head stock)):lista) 
-                              | otherwise = eliminoDuplicados (tail stock) (lista)
+generoStock :: [String] -> [String] -> [(String, Int)]
+generoStock productos lista | longitud(productos) == 0 = []
+                            | not(pertenece lista (head productos)) = ((head productos), cantApariciones productos (head productos)):generoStock (tail productos) ((head productos):lista)
+                            | otherwise = generoStock (tail productos) lista
 
 generarStock :: [String] -> [(String, Int)]
-generarStock mercaderia = eliminoDuplicados (generoElStock mercaderia) []
+generarStock productos = generoStock productos []
 
 {-Ejercicio 2. Implementar la función stockDeProducto :: [(String, Int))] -> String -> Int
 problema stockDeProducto (stock: seq⟨String × Z⟩, producto: String) : Z{
@@ -52,15 +48,14 @@ problema stockDeProducto (stock: seq⟨String × Z⟩, producto: String) : Z{
     asegura: {si existe un i tal que 0 ≤i < |stock| y producto = stock[i]_0 entonces res es igual a stock[i]_1}
 }
 -}
-listaDeProductos :: [(String, Int)] -> [String]
-listaDeProductos stock | longitud(stock) == 0 = []
-                       | otherwise = (fst(head stock)):listaDeProductos (tail stock)             
+listaDeProductosStock :: [(String, Int)] -> [String]
+listaDeProductosStock stock | longitud(stock) == 0 = []
+                            | otherwise = fst(head stock):listaDeProductosStock (tail stock)
 
 stockDeProducto :: [(String, Int)] -> String -> Int
-stockDeProducto stock producto | not(pertenece (listaDeProductos stock) producto) = 0
+stockDeProducto stock producto | not(pertenece (listaDeProductosStock(stock)) producto) = 0
                                | fst(head stock) == producto = snd(head stock)
-                               | otherwise = stockDeProducto (tail stock) producto                 
-
+                               | otherwise = stockDeProducto (tail stock) producto             
 
 {-Ejercicio 3. Implementar la función dineroEnStock :: [(String, Int))] -> [(String, Float)] -> Float
 problema dineroEnStock (stock: seq⟨String ×Z⟩, precios: seq⟨String ×R⟩ ) : R {
@@ -75,16 +70,21 @@ problema dineroEnStock (stock: seq⟨String ×Z⟩, precios: seq⟨String ×R⟩
 Para resolver este ejercicio pueden utilizar la función del Preludio de Haskell fromIntegral que dado un valor de tipo
 Int devuelve su equivalente de tipo Float.
 -}
-sumaPrecios :: [(String, Float)] -> Float
-sumaPrecios precios | longitud(precios) == 0 = 0
-                    | otherwise = (snd(head precios)) + sumaPrecios (tail precios)
+listaDeProductosPrecios :: [(String, Float)] -> [String]
+listaDeProductosPrecios precios | longitud(precios) == 0 = []
+                                | otherwise = fst(head precios):listaDeProductosPrecios (tail precios)
 
-cantidadDeProductos :: [(String, Int)] -> Int
-cantidadDeProductos productos | longitud(productos) == 0 = 0
-                              | otherwise = (snd(head productos)) + cantidadDeProductos (tail productos)  
+precioDeProducto :: [(String, Float)] -> String -> Float
+precioDeProducto precios producto | not(pertenece (listaDeProductosPrecios precios) producto) = 0
+                                  | fst(head precios) == producto = snd(head precios)
+                                  | otherwise = precioDeProducto (tail precios) producto
+
+multiplicoCantConPrecio :: Int -> Float -> Float
+multiplicoCantConPrecio cantidad precio = (fromIntegral cantidad)*precio
 
 dineroEnStock :: [(String, Int)] -> [(String, Float)] -> Float
-dineroEnStock stock precios = sumaPrecios(precios)*(fromIntegral(cantidadDeProductos(stock)))
+dineroEnStock stock precios | longitud(stock) == 0 = 0.0
+                            | otherwise = (multiplicoCantConPrecio (stockDeProducto stock (fst(head stock))) (precioDeProducto precios (fst(head stock)))) + dineroEnStock (tail stock) (tail precios)
 
 {-Ejercicio 4. 
 Implementar la función aplicarOferta :: [(String, Int)] -> [(String, Float)] -> [(String,Float)]
@@ -103,8 +103,8 @@ problema aplicarOferta (stock: seq⟨String ×Z⟩, precios: seq⟨String ×R⟩
 -}
 aplicarOferta :: [(String, Int)] -> [(String, Float)] -> [(String, Float)]
 aplicarOferta stock precios | longitud(precios) == 0 = []
-                            | (stockDeProducto stock (fst(head precios))) > 10 = (fst(head precios), (snd(head precios))*0.80):(aplicarOferta stock (tail precios)) 
-                            | otherwise = (fst(head precios), snd(head precios)):(aplicarOferta stock (tail precios))        
+                            |(stockDeProducto (stock) (fst(head precios))) > 10 = ((fst(head precios)), (snd(head precios))*0.80):aplicarOferta (stock) (tail precios)
+                            | otherwise = ((fst(head precios)), (snd(head precios))):aplicarOferta (stock) (tail precios)
 
 {-Perfectos amigos
 El Departamento de Matemática (DM) de la FCEyN-UBA nos ha encargado que desarrollemos un sistema para el tratamiento de números naturales.
