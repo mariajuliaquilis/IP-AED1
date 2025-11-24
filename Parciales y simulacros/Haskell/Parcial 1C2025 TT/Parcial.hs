@@ -63,14 +63,62 @@ problema materiasTurnoTarde (s: seq<String x String x Z x Z>) :seq<String> {
             se superpone (total o parcialmente) con el rango (14..17)}
 }
 -}
+primeraComponente :: (String, String, Int, Int) -> String
+primeraComponente (x,y,z,w) = x
+
+terceraComponente :: (String, String, Int, Int) -> Int
+terceraComponente (x,y,z,w) = z 
+
+cuartaComponente :: (String, String, Int, Int) -> Int
+cuartaComponente (x,y,z,w) = w
+
+pertenece :: (Eq t) => [t] -> t -> Bool
+pertenece lista elemento | longitud(lista) == 0 = False
+                         | otherwise = (head lista) == elemento || pertenece (tail lista) elemento
+
+sinRepeticiones :: [String] -> [String] -> [String]
+sinRepeticiones materias lista | longitud(materias) == 0 = []
+                               | not(pertenece lista (head materias)) = (head materias):sinRepeticiones (tail materias) ((head materias):lista)
+                               | otherwise = sinRepeticiones (tail materias) lista
+
+horasDeCursada :: Int -> Int -> [Int]
+horasDeCursada inicio fin | inicio == fin = []  --fin no forma parte del horario de cursada, está excluido dentro del intervalo (inicio, fin)
+                          | otherwise = inicio:horasDeCursada (inicio+1) fin
+
+estaEnElRango :: [Int] -> [Int] -> Bool
+estaEnElRango horarios horariosTarde | longitud(horarios) == 0 = False
+                                     | otherwise = pertenece horariosTarde (head horarios) || estaEnElRango (tail horarios) (horariosTarde)
+
+materiasEnElRango :: [(String, String, Int, Int)] -> [String]
+materiasEnElRango materias  | longitud(materias) == 0 = []
+                            | estaEnElRango (horasDeCursada (terceraComponente(head materias)) (cuartaComponente(head materias))) (horasDeCursada 14 17) = primeraComponente(head materias):materiasEnElRango(tail materias)
+                            | otherwise = materiasEnElRango(tail materias)
+
+materiasTurnoTarde :: [(String, String, Int, Int)] -> [String]
+materiasTurnoTarde materias = sinRepeticiones (materiasEnElRango(materias)) []
 
 {-Ejercicio 3)
 problema maximaSumaDeTresConsecutivos (s: seq <Z>) : Z {
-  requiere: { |s| >= 3}
-  asegura: { res es la suma de tres elementos que se encuentran en posiciones consecutivas de s }
+  requiere: {|s| >= 3}
+  asegura: {res es la suma de tres elementos que se encuentran en posiciones consecutivas de s}
   asegura: {Para cualquier i en el rango 1 <= i < |s|-1, se cumple que s[i-1] + s[i] + s[i+1] <= res}
 -}
+sumaMaxima :: [Integer] -> Integer -> Integer
+sumaMaxima lista maximo | longitud(lista) == 3 && (sumoLosElementos > maximo) = sumoLosElementos
+                        | longitud(lista) == 3 && (sumoLosElementos <= maximo) = maximo
+                        | sumoLosElementos > maximo = sumaMaxima (tail lista) (sumoLosElementos)
+                        | otherwise = sumaMaxima (tail lista) maximo
+                        where primerElemento = (head lista)
+                              segundoElemento = (head(tail lista))
+                              tercerElemento = (head(tail(tail lista))) 
+                              sumoLosElementos = primerElemento + segundoElemento + tercerElemento
 
+maximaSumaDeTresConsecutivos :: [Integer] -> Integer
+maximaSumaDeTresConsecutivos lista = sumaMaxima lista (primerElemento+segundoElemento+tercerElemento)
+                                   where primerElemento = (head lista)
+                                         segundoElemento = (head(tail lista))
+                                         tercerElemento = (head(tail(tail lista)))
+                                         
 {-Ejercicio 4)
 problema sumaIesimaColumna (matriz: seq<seq<Integer>>, col: Integer) : Integer{
   requiere: {Todos los elementos de la secuencia matriz tienen la misma longitud}
@@ -80,3 +128,29 @@ problema sumaIesimaColumna (matriz: seq<seq<Integer>>, col: Integer) : Integer{
   asegura: {res es la sumatoria de los elementos matriz[i][col-1] para todo i tal que 0 <= i < |matriz|}
 }
 -}
+extraigoPrimerElementoDeFilas :: [[Integer]] -> [Integer]
+extraigoPrimerElementoDeFilas matriz | longitud(matriz) == 0 = []
+                                     | otherwise = (head(head matriz)):extraigoPrimerElementoDeFilas(tail matriz)
+
+eliminoPrimerElementoDeFilas :: [[Integer]] -> [[Integer]]
+eliminoPrimerElementoDeFilas matriz | longitud(matriz) == 0 = []
+                                    | otherwise = tail(head matriz):eliminoPrimerElementoDeFilas (tail matriz) 
+
+matrizTraspuesta :: [[Integer]] -> [[Integer]]
+matrizTraspuesta matriz | longitud(matriz) == 0 || longitud(head matriz) == 0 = []
+                        | otherwise = extraigoPrimerElementoDeFilas(matriz):matrizTraspuesta(eliminoPrimerElementoDeFilas(matriz))
+
+sumoColumna :: [Integer] -> Integer
+sumoColumna columna | longitud(columna) == 0 = 0
+                    | otherwise = (head columna) + sumoColumna(tail columna)
+
+numeroDeColumna :: [[Integer]] -> [Integer] -> Integer
+numeroDeColumna matriz fila | (head matriz) == fila = 1
+                            | otherwise = 1 + numeroDeColumna(tail matriz) fila
+
+extraigoColumna :: [[Integer]] -> [[Integer]] -> Integer -> [Integer]
+extraigoColumna matriz mismaMatriz col | (numeroDeColumna mismaMatriz (head matriz)) == col = (head matriz)
+                                       | otherwise = extraigoColumna (tail matriz) mismaMatriz col
+
+sumaIesimaColumna :: [[Integer]] -> Integer -> Integer
+sumaIesimaColumna matriz columna = sumoColumna(extraigoColumna (matrizTraspuesta(matriz)) (matrizTraspuesta(matriz)) columna)
