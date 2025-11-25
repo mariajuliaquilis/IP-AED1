@@ -58,6 +58,42 @@ Ejemplo 1: sanguchitoDeCerosMasGrande [0,5,0,2,0,1] debe devolver 5
 Ejemplo 2: sanguchitoDeCerosMasGrande [1,0,3,1,0] debe devolver 0 
 -}
 
+indice :: [Integer] -> Integer -> Integer
+indice lista elemento | longitud(lista) == 0 = -1
+                      | head lista == elemento = 0
+                      | otherwise = 1 + indice (tail lista) elemento
+
+extraigoElemento :: [Integer] -> Integer -> Integer
+extraigoElemento lista posicion | longitud(lista) == 0 = -1
+                                | indice lista (head lista) == posicion = head lista
+                                | otherwise = extraigoElemento (tail lista) (posicion-1)
+
+esSanguchitoDeCeros :: [Integer] -> Integer -> Bool
+esSanguchitoDeCeros lista posicion = extraigoElemento lista (posicion-1) == 0 && extraigoElemento lista (posicion+1) == 0
+
+listaIndiceElementoNoEsCero :: [Integer] -> Integer -> [Integer]
+listaIndiceElementoNoEsCero lista i | longitud(lista) == 0 = []
+                                    | (head lista) /= 0 = i:listaIndiceElementoNoEsCero(tail lista) (i+1)
+                                    | otherwise = listaIndiceElementoNoEsCero (tail lista) (i+1)
+
+indicesDondeSeCumpleSanguchito :: [Integer] -> [Integer] -> [Integer]
+indicesDondeSeCumpleSanguchito listaPos listaElem | longitud(listaPos) == 0 = []
+                                                  | not(esSanguchitoDeCeros listaElem (head listaPos)) = indicesDondeSeCumpleSanguchito (tail listaPos) listaElem 
+                                                  | otherwise = (head listaPos):indicesDondeSeCumpleSanguchito (tail listaPos) listaElem
+
+elementosDondeSeCumpleSanguchito :: [Integer] -> [Integer] -> [Integer]
+elementosDondeSeCumpleSanguchito listaElem [] = []
+elementosDondeSeCumpleSanguchito listaElem listaPos = extraigoElemento listaElem (head listaPos):elementosDondeSeCumpleSanguchito listaElem (tail listaPos)
+
+mayorElemento :: [Integer] -> Integer -> Integer
+mayorElemento lista maximo | longitud(lista) == 0 = maximo
+                           | head(lista) > maximo = mayorElemento (tail lista) (head lista)
+                           | otherwise = mayorElemento (tail lista) maximo
+
+sanguchitoDeCerosMasGrande :: [Integer] -> Integer
+sanguchitoDeCerosMasGrande lista | listaSinCeros == [] = 0
+                                 | otherwise = mayorElemento listaSinCeros (head(listaSinCeros))
+                                 where listaSinCeros = (elementosDondeSeCumpleSanguchito lista (indicesDondeSeCumpleSanguchito (listaIndiceElementoNoEsCero (lista) 0) (lista)))
 
 {-Ejercicio 3 (2 puntos)
 Una famosa plataforma de streaming nos envía un listado de series de TV con sus respectivas temporadas. Se desea armar una estadística de
