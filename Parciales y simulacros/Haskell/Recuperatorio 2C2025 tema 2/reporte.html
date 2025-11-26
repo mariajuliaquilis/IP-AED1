@@ -1,0 +1,582 @@
+<h1>Parcial - tema2</h1>
+<p>Nota: 8.5 / 10.0 (APROBADO)</p>
+<pre><code>puntaje ej1: 1.2
+puntaje ej2: 1.33
+puntaje ej3: 2.5
+puntaje ej4: 2.5
+puntaje ej5: 1
+</code></pre>
+<h2>Datos del alumno</h2>
+<p>Nombre: Maria Julia Quilis</p>
+<p>DNI: 41062606</p>
+<p>LU: 782/18</p>
+<p>Maquina: 65-04</p>
+<h2>Enunciado</h2>
+<html>
+
+  <head>
+    <link rel="icon" href="data:,">
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+
+    <div>
+
+      <h1> Recuperatorio Haskell 2c2025 - Tema 2 </h1>
+
+      <p>
+
+        <h2> Importante </h2>
+        Template de funciones a implementar <a href="#"
+          onclick="forceDownload('/parcial/Template_t2.hs','SolucionT2.hs');">acá</a><br>
+        Lista de funciones permitidas <a href="/static/haskell_permitidas.html"
+          target="_blank" rel="noopener noreferrer">acá</a><br>
+        Ejemplo de hunit <a href="#"
+          onclick="forceDownload('/parcial/Test_template_t2.hs','Test_template_t2.hs');">acá</a>
+
+        <p>
+
+          <form name="form1" action="/submit_examen" method="post"
+            enctype="multipart/form-data" onsubmit="return validaciones(event)">
+
+            <h2> Enunciado </h2>
+
+            <ol>
+              <p>
+                Resolver los siguientes ejercicios cuyas especificaciones en
+                lenguaje
+                semiformal figuran a continuación. Deben ser implementadas en
+                Haskell utilizando los tipos
+                requeridos y solamente las funciones que se ven en la materia
+                Introducción a la Programación / Algoritmos y Estructuras de
+                Datos I (FCEyN-UBA).
+              </p>
+
+              <li> <strong> Ejercicio 1 (2 puntos)</strong></li>
+              <p>problema divisoresPropios (n: Z) : seq⟨Z⟩ {<br>
+                &nbsp; <strong>requiere:</strong> {n > 0} <br>
+                &nbsp; <strong>asegura:</strong> {<i>res</i> es la lista de
+                divisores propios de <i>n</i>, de menor a mayor.} <br>
+                }<br>
+              </p>
+
+              Aclaración: Los divisores propios de un número entero positivo son
+              todos sus divisores positivos, excepto el propio número.
+
+              <pre
+                style="background-color: #f0f0f0; /* Color de fondo del recuadro */
+  padding: 2px; /* Espacio interior */
+  border: 1px solid #ccc; /* Borde del recuadro */
+  border-radius: 5px; /* Bordes redondeados */">
+Ejemplo: <b>divisoresPropios 284</b> debe devolver <b>[1, 2 , 4, 71, 142]</b>
+</pre>
+
+              <br>
+
+              <li> <strong>Ejercicio 2 (2 puntos)</strong></li>
+              Representaremos un <i>día de cursada de cierta materia</i> con una
+              tupla String x String x Z x Z, donde:
+              <ul>
+                <li>La primera componente de la tupla contiene el nombre de una
+                  materia</li>
+                <li>La segunda componente de la tupla contiene el día de cursada
+                  (lunes, martes, etc)</li>
+                <li>La tercera componente de la tupla contiene el horario de
+                  inicio de la cursada de ese día</li>
+                <li>La cuarta componente de la tupla contiene el horario de fin
+                  de la cursada de ese día</li>
+              </ul>
+              Se pide implementar materiasComisionN, que dada una lista de
+              cursadas devuelva aquellas materias que se cursan en un turno
+              particular
+
+              <p>problema materiasComisionN (<i>s</i>: seq⟨String x String x Z x
+                Z⟩, inicio: Z, fin: Z) :seq⟨String⟩ {<br>
+                &nbsp; <strong>requiere:</strong> { inicio ≥ 8 && inicio < fin
+                && fin ≤ 22} <br>
+                &nbsp; <strong>requiere:</strong> { s[i]<sub>1</sub> es alguno
+                de los siguientes valores: "Lunes", "Martes", "Miércoles",
+                "Jueves", "Viernes"} <br>
+                &nbsp; <strong>requiere:</strong> { s[i]<sub>2</sub> ≥ 8 para
+                todo i tal que 0 ≤ i < |s|} <br>
+                &nbsp; <strong>requiere:</strong> { s[i]<sub>3</sub> ≤ 22 para
+                todo i tal que 0 ≤ i < |s|} <br>
+                &nbsp; <strong>requiere:</strong> { s[i]<sub>2</sub> <
+                s[i]<sub>3</sub> para todo i tal que 0 ≤ i < |s|} <br>
+                &nbsp; <strong>asegura:</strong> { <i>res</i> no tiene elementos
+                repetidos} <br>
+                &nbsp; <strong>asegura:</strong> { <i>res</i> contiene los
+                nombres de todas las materias incluídas en <i>s</i> tales que el
+                horario de cursada de dichas materias se superpone (total o
+                parcialmente) con el rango (<i>inicio</i>..<i>fin</i>), es
+                decir, sin incluir inicio y fin.} <br>
+                &nbsp; <strong>asegura:</strong> { <i>res</i> contiene solamente
+                los nombres de las materias incluídas en <i>s</i> tales el
+                horario
+                de cursada de dichas materias se superpone (total o
+                parcialmente) con el rango (<i>inicio</i>..<i>fin</i>), es
+                decir, sin incluir inicio y fin.} <br>
+                }<br>
+
+                <pre
+                  style="background-color: #f0f0f0; /* Color de fondo del recuadro */
+    padding: 2px; /* Espacio interior */
+    border: 1px solid #ccc; /* Borde del recuadro */
+    border-radius: 5px; /* Bordes redondeados */">
+ Ejemplo: <b>materiasComisionN [("Introducción a la Programación", "Miércoles", 14, 17)] 14 17 </b> debe devolver <b>["Introducción a la Programación"]</b>
+    </pre>
+
+                <br>
+
+                <li> <strong> Ejercicio 3 (2.5 puntos)</strong></li>
+                Representaremos un <i>registro de alumnos</i> como una tupla seq⟨Char⟩ x
+                  seq⟨Z⟩, donde:
+                <ul>
+                  <li>el primer componente de la tupla es el nombre del alumno</li>
+                  <li>el segundo componente es una secuencia de enteros que representan
+                las notas obtenidas por dicho alumno en distintas evaluaciones</li>
+                </ul>
+
+                <p>problema mejorPromedio (<i>registro</i>: seq⟨seq⟨Char⟩ x
+                  seq⟨Z⟩⟩) : seq⟨Char⟩ {<br>
+                  &nbsp; <strong>requiere:</strong> {No hay nombres de alumnos
+                  repetidos en <i>registro</i>} <br>
+                  &nbsp; <strong>requiere:</strong> {Las notas de
+                  <i>registro</i> son todas iguales o mayores a cero y menores o
+                  iguales a 10}<br>
+                  &nbsp; <strong>requiere:</strong> {|registro| > 0 } <br>
+                  &nbsp; <strong>asegura:</strong> {<i>res</i> es el nombre del
+                  alumno cuyo promedio de notas es el más alto; si hay más de un
+                  alumno
+                  con el mismo promedio de notas, devuelve el nombre de alumno
+                  que aparece primero en <i>registro</i>} <br>
+                  }<br>
+                </p>
+
+                <pre
+                  style="background-color: #f0f0f0; /* Color de fondo del recuadro */
+    padding: 2px; /* Espacio interior */
+    border: 1px solid #ccc; /* Borde del recuadro */
+    border-radius: 5px; /* Bordes redondeados */">
+ Ejemplo: <b>mejorPromedio [("Ana", [10,9,10]), ("Luis", [9,9,9])]</b> debe devolver <b>"Ana"</b>
+    </pre>
+
+                <br>
+
+                <li> <strong>Ejercicio 4 (2.5 puntos)</strong></li>
+                <p>problema caracteresEnComun (<i>palabra1</i>: seq⟨Char⟩,
+                  <i>palabra2</i>: seq⟨Char⟩) : seq⟨Char⟩⟩{<br>
+                  &nbsp; <strong>requiere:</strong> {True}<br>
+                  &nbsp; <strong>asegura:</strong> {<strong>res</strong> es una
+                  secuencia de caracteres sin repetidos, que tiene todos los
+                  caracteres que <i>palabra1</i> y <i>palabra2</i> tienen en
+                  común.} <br>
+                  }<br>
+                </p>
+
+                <pre
+                  style="background-color: #f0f0f0; /* Color de fondo del recuadro */
+  padding: 2px; /* Espacio interior */
+  border: 1px solid #ccc; /* Borde del recuadro */
+  border-radius: 5px; /* Bordes redondeados */">
+  Ejemplo: <b>caracteresEnComun "hola" "chau"</b> puede devolver <b>"ha"</b>
+  </pre>
+
+                <br>
+
+                <li> <strong>Ejercicio 5 (1 punto)</strong></li>
+                <p>
+                  Conteste marcando la opción correcta. En el contexto de la
+                  programación, definimos un tipo de datos como: <br>
+
+                  <input type="radio" name="mchoice_1" id="opcion1" value="1" />
+                  <label for="opcion1">Un conjunto de valores.</label> <br>
+                  <input type="radio" name="mchoice_1" id="opcion2" value="2" />
+                  <label for="opcion2">Un conjunto de valores y un conjunto de
+                    operaciones.</label> <br>
+                  <input type="radio" name="mchoice_1" id="opcion3" value="3" />
+                  <label for="opcion3">Un conjunto de valores y un conjunto de
+                    variables.</label> <br>
+                </p>
+
+              </ol>
+
+              <hr>
+              <h3 style="color:#1A5276">Adjunta el archivo con tu solución:</h3>
+              <p><b style="color:red">Solo se puede adjuntar 1 archivo de
+                  extensión .hs. En caso de haber desarrollado tests propios, no
+                  deben ser entregados.</b></p>
+
+              <label for="archivo">Seleccionar archivo a enviar:</label>
+              <input type="file" id="archivo" name="archivo" required
+                accept=".hs,text/x-haskell" />
+
+              <input type="submit" value="Enviar"
+                style="background-color: #1A5276; border-radius: 5px;
+                margin-top:10px;padding: 10px 150px;color: #FFFFFF;
+                font-size: 20px;cursor: pointer; width:100%">
+
+            </form>
+
+          </div>
+
+          <script>
+  function validaciones(event) {
+    // Obtiene todos los inputs tipo radio del formulario
+    const radioGroups = document.querySelectorAll('input[type="radio"]');
+    const groupedByName = {};
+
+    // Agrupar radios por su atributo name
+    radioGroups.forEach(radio => {
+      if (!groupedByName[radio.name]) {
+        groupedByName[radio.name] = [];
+      }
+      groupedByName[radio.name].push(radio);
+    });
+
+    // Verificar que cada grupo de radios tenga al menos uno seleccionado
+    for (const groupName in groupedByName) {
+      const radios = groupedByName[groupName];
+      const isChecked = radios.some(radio => radio.checked);
+
+      if (!isChecked) {
+        alert(`Debes seleccionar una opción para la pregunta ${groupName}`);
+        return false; // Detener la validación si falta alguna opción
+      }
+    }
+
+    var confirmacion = confirm("Confirmo que revise mis respuestas y que quiero entregar mi examen");
+    if (!confirmacion) {
+        event.preventDefault();
+        event.returnValue = false;
+        return false;
+      }
+      event.returnValue = true;
+      return true;
+  }
+</script>
+
+          <script>
+// registro una funcion para mostrar el archivo cuando se adjunta.
+// de esa forma evitamos que se adjunten otros archivos por error
+document
+  .getElementById('archivo')
+  .addEventListener(
+      'change',
+      function () {
+          var fr = new FileReader();
+          fr.onload = function () {
+              alert(this.result);
+          };
+          fr.readAsText(this.files[0]);
+      }
+  );
+
+// para forzar a bajar el template de hunit y que no se pueda abrir en un nuevo tab
+// (el browser intenta mostrar el codigo como HTML y el formato se ve raro)
+function forceDownload(url, filename) {
+  fetch(url).then(function(t) {
+    return t.blob().then((b) => {
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(b);
+      a.setAttribute("download", filename);
+      a.click();
+    });
+  });
+}
+</script>
+
+        </body>
+
+      </html>
+
+<h2>Solucion entregada por el alumno</h2>
+<pre><code>module SolucionT2 where
+
+-- Ejercicio 1
+longitud :: (Eq t) =&gt; [t] -&gt; Int
+longitud lista | lista == [] = 0
+               | otherwise = 1 + longitud(tail lista) 
+
+listaDeNumeros :: Int -&gt; Int -&gt; [Int]
+listaDeNumeros desde hasta | desde == hasta = []
+                           | otherwise = desde:listaDeNumeros (desde+1) hasta 
+
+listaDeDivisores :: Int -&gt; [Int] -&gt; [Int]
+listaDeDivisores numero lista | longitud(lista) == 0 = []
+                              | mod numero (head lista) == 0 = (head lista):listaDeDivisores numero (tail lista)
+                              | otherwise = listaDeDivisores numero (tail lista)  
+
+divisoresPropios :: Int -&gt; [Int]
+divisoresPropios numero = listaDeDivisores numero (listaDeNumeros 1 numero)
+
+-- Ejercicio 2
+primeraCoordenada :: (String,String,Int,Int) -&gt; String
+primeraCoordenada (x,y,z,w) = x
+
+terceraCoordenada :: (String,String,Int,Int) -&gt; Int
+terceraCoordenada (x,y,z,w) = z 
+
+cuartaCoordenada :: (String,String,Int,Int) -&gt; Int 
+cuartaCoordenada (x,y,z,w) = w
+
+pertenece :: (Eq t) =&gt; [t] -&gt; t -&gt; Bool
+pertenece lista elemento | longitud(lista) == 0 = False
+                         | otherwise = (head lista) == elemento || pertenece (tail lista) elemento
+
+listaHorarios :: Int -&gt; Int -&gt; [Int]
+listaHorarios desde hasta | desde &gt; hasta = []
+                          | otherwise = desde:listaHorarios (desde+1) hasta  
+
+horarioEstaEnListaHorarios :: (String,String,Int,Int) -&gt; Int -&gt; Int -&gt; Bool
+horarioEstaEnListaHorarios materia inicio fin = (pertenece (listaHorarios inicio fin) (terceraCoordenada(materia)) &amp;&amp; pertenece (listaHorarios inicio fin) (cuartaCoordenada(materia))) ||
+                                                (pertenece (listaHorarios (terceraCoordenada(materia)) (cuartaCoordenada(materia))) inicio &amp;&amp; pertenece (listaHorarios (terceraCoordenada(materia)) (cuartaCoordenada(materia))) fin)
+
+listaMateriasQueSeCursanEnUnTurno :: [(String,String,Int,Int)] -&gt; Int -&gt; Int -&gt; [String]
+listaMateriasQueSeCursanEnUnTurno lista desde hasta | longitud(lista) == 0 = []
+                                                    | horarioEstaEnListaHorarios (head(lista)) desde hasta = (primeraCoordenada(head lista)):(listaMateriasQueSeCursanEnUnTurno (tail lista) desde hasta) 
+                                                    | otherwise = listaMateriasQueSeCursanEnUnTurno (tail lista) desde hasta
+
+materiasComisionN :: [(String,String,Int,Int)] -&gt; Int -&gt; Int -&gt; [String]
+materiasComisionN lista inicio fin = listaMateriasQueSeCursanEnUnTurno lista inicio fin
+
+-- Ejercicio 3
+sumoNotas :: [Int] -&gt; Int
+sumoNotas lista | longitud(lista) == 0 = 0
+                | otherwise = (head lista) + sumoNotas(tail lista)
+
+cantidadDeNotas :: [Int] -&gt; Int
+cantidadDeNotas lista | longitud(lista) == 0 = 0
+                      | otherwise = 1 + cantidadDeNotas(tail lista)
+
+promedioPorAlumno :: [Int] -&gt; Float
+promedioPorAlumno lista = (fromIntegral(sumoNotas(lista)))/(fromIntegral(cantidadDeNotas(lista)))
+
+promedioMasAlto :: [(String, [Int])] -&gt; String -&gt; Float -&gt; String
+promedioMasAlto lista alumno promedio | longitud(lista) == 0 = alumno
+                                      | promedioPorAlumno(snd(head lista)) &gt; promedio = promedioMasAlto (tail lista) (fst(head lista)) (promedioPorAlumno(snd(head lista)))
+                                      | otherwise = promedioMasAlto (tail lista) alumno promedio
+
+mejorPromedio :: [(String, [Int])] -&gt; String
+mejorPromedio lista = promedioMasAlto lista (fst(head lista)) (promedioPorAlumno (snd(head lista)))
+
+-- Ejercicio 4
+listaCaracteresQueAparecenEnS1 :: String -&gt; String -&gt; String
+listaCaracteresQueAparecenEnS1 s1 s2 | longitud(s2) == 0 = &quot;&quot;
+                                     | pertenece s1 (head(s2)) = (head s2):listaCaracteresQueAparecenEnS1 s1 (tail s2)
+                                     | otherwise = listaCaracteresQueAparecenEnS1 s1 (tail s2)
+
+listaCaracteresQueAparecenEnS2 :: String -&gt; String -&gt; String
+listaCaracteresQueAparecenEnS2 s1 s2 | longitud(s1) == 0 = &quot;&quot;
+                                     | pertenece s2 (head(s1)) = (head s1):listaCaracteresQueAparecenEnS2 (tail s1) s2
+                                     | otherwise = listaCaracteresQueAparecenEnS2 (tail s1) s2
+
+palabrasEnComun :: String -&gt; String -&gt; String
+palabrasEnComun palabra1 palabra2 | longitud(palabra1) == 0 = &quot;&quot;
+                                  | pertenece (palabra2) (head(palabra1)) = (head(palabra1)):palabrasEnComun (tail palabra1) palabra2
+                                  | otherwise = palabrasEnComun (tail palabra1) palabra2  
+
+sinRepetidos :: String -&gt; String -&gt; String
+sinRepetidos palabra lista | longitud(palabra) == 0 = &quot;&quot;
+                           | not(pertenece (lista) (head palabra)) = (head palabra):(sinRepetidos (tail palabra) ((head palabra):lista))
+                           | otherwise = sinRepetidos (tail palabra) (lista)
+
+caracteresEnComun :: String -&gt; String -&gt; String
+caracteresEnComun s1 s2 = sinRepetidos (palabrasEnComun (listaCaracteresQueAparecenEnS1 s1 s2) (listaCaracteresQueAparecenEnS2 s1 s2)) &quot;&quot;
+</code></pre>
+<h2>Resultado de la compilacion</h2>
+<pre><code>[1 of 1] Compiling SolucionT2       ( correcciones/recu_haskell/quilis_maria_julia_41062606/submission.hs.main.hs, correcciones/recu_haskell/quilis_maria_julia_41062606/submission.hs.main.o )
+
+</code></pre>
+<h2>Ejecucion de los tests</h2>
+<h3>tema2-test-ej1.hs.compilacion.out</h3>
+<p>Puntaje del ej: 1.2 / 2</p>
+<pre><code>
+El test ej1-test3 falló por TIMEOUT despues de 5 segundos
+
+Cases: 1  Tried: 1  Errors: 1  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+El test ej1-test5 falló por TIMEOUT despues de 5 segundos
+
+Cases: 1  Tried: 1  Errors: 1  Failures: 0
+
+
+Cases: 5  Tried: 5  Errors: 2  Failures: 0
+
+</code></pre>
+<h3>tema2-test-ej2.hs.compilacion.out</h3>
+<p>Puntaje del ej: 1.33 / 2</p>
+<pre><code>
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+### Failure in: 0:materiasComisionN mmuchas TT
+Tema2-test-ej2-test7.hs:32
+Expected a permutation of [&quot;Algo1&quot;,&quot;Algebra&quot;,&quot;Materia intensiva&quot;,&quot;Analisis&quot;], but got [&quot;Algo1&quot;,&quot;Materia intensiva&quot;,&quot;Analisis&quot;]
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 1
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+### Failure in: 0:materiasComisionN un poco de todo
+Tema2-test-ej2-test8.hs:32
+Expected a permutation of [&quot;Algo1&quot;,&quot;Algebra&quot;,&quot;Materia intensiva&quot;,&quot;Analisis&quot;], but got [&quot;Algo1&quot;,&quot;Materia intensiva&quot;,&quot;Analisis&quot;,&quot;Analisis&quot;]
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 1
+
+
+
+### Failure in: 0:materiasComisionN una sola cursada TT repetido 
+Tema2-test-ej2-test3.hs:32
+Expected a permutation of [&quot;Algo1&quot;], but got [&quot;Algo1&quot;,&quot;Algo1&quot;]
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 1
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+Cases: 9  Tried: 9  Errors: 0  Failures: 3
+
+</code></pre>
+<h3>tema2-test-ej3.hs.compilacion.out</h3>
+<p>Puntaje del ej: 2.5 / 2.5</p>
+<pre><code>
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+Cases: 9  Tried: 9  Errors: 0  Failures: 0
+
+</code></pre>
+<h3>tema2-test-ej4.hs.compilacion.out</h3>
+<p>Puntaje del ej: 2.5 / 2.5</p>
+<pre><code>
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+
+Cases: 1  Tried: 1  Errors: 0  Failures: 0
+
+
+Cases: 12  Tried: 12  Errors: 0  Failures: 0
+
+</code></pre>
+<h3>mchoice.json-ej5.compilacion.out</h3>
+<p>Puntaje del ej: 1 / 1</p>
+<pre><code>mchoice ej5: respuesta del alumno=2, respuesta correcta=2
+
+Ran 1 test in 0 seconds
+
+OK
+
+</code></pre>
+<p>FIN</p>
